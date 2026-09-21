@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Target Assessment — FGF21 / MASH</title>
+<script>MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]},options:{skipHtmlTags:['script','noscript','style','textarea']}}</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+:root{
+  --ink:#1a2133;--ink-mid:#3d4f6a;--ink-soft:#6b7d96;
+  --rule:#dde3ec;--bg:#fff;--bg-tint:#f4f7fb;
+  --accent:#1c5fa8;--accent-lt:#e8f0fa;
+  --go:#166534;--go-bg:#dcfce7;
+  --warn:#7c3d0d;--warn-bg:#fef3c7;
+  --danger-bg:#fee2e2;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:var(--bg);line-height:1.75;}
+.page-shell{display:grid;grid-template-columns:240px 1fr;grid-template-rows:auto 1fr;min-height:100vh;}
+.site-header{grid-column:1/-1;background:var(--ink);color:#fff;padding:2rem 2.5rem 1.75rem;border-bottom:3px solid var(--accent);}
+.eyebrow{font-family:'Helvetica Neue',Arial,sans-serif;font-size:.75rem;letter-spacing:.12em;color:#8faed4;margin-bottom:.4rem;text-transform:uppercase;}
+.site-header h1{font-size:2rem;font-weight:700;letter-spacing:-.01em;line-height:1.2;}
+.site-header h1 span{color:#6ab0f5;}
+.meta-row{display:flex;gap:2rem;margin-top:.9rem;flex-wrap:wrap;}
+.meta-item{font-family:'Helvetica Neue',Arial,sans-serif;font-size:.8rem;color:#9bb8d6;}
+.meta-item strong{color:#c9ddef;font-weight:600;}
+.badge{display:inline-block;padding:.2rem .65rem;border-radius:999px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;line-height:1;}
+.badge-agonist{background:#1e40af;color:#dbeafe;}
+.badge-high{background:#15803d;color:#dcfce7;}
+.badge-go{background:#14532d;color:#bbf7d0;font-size:.8rem;padding:.25rem .8rem;}
+.score-hero{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.6rem 1.1rem;display:inline-flex;align-items:baseline;gap:.5rem;}
+.score-hero .sh-num{font-family:'Helvetica Neue',Arial,sans-serif;font-size:2rem;font-weight:900;color:#6ab0f5;}
+.score-hero .sh-label{font-family:'Helvetica Neue',Arial,sans-serif;font-size:.72rem;color:#9bb8d6;text-transform:uppercase;letter-spacing:.08em;}
+.sidebar{background:var(--bg-tint);border-right:1px solid var(--rule);padding:1.5rem 0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sidebar nav{padding:0 1.25rem;}
+.nav-section{font-family:'Helvetica Neue',Arial,sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:1.1rem 0 .35rem;}
+.sidebar a{display:block;font-family:'Helvetica Neue',Arial,sans-serif;font-size:.78rem;color:var(--ink-mid);text-decoration:none;padding:.28rem .4rem;border-radius:4px;line-height:1.4;transition:background .15s,color .15s;}
+.sidebar a:hover{background:var(--accent-lt);color:var(--accent);}
+.sidebar a.sub{padding-left:1rem;color:var(--ink-soft);}
+.content{padding:2.75rem 3rem 4rem;max-width:880px;margin:0 auto;}
+.section{margin-bottom:3rem;}
+h1,h2,h3,h4{font-family:'Helvetica Neue',Arial,sans-serif;}
+h2{font-size:1.25rem;font-weight:700;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:.4rem;margin:0 0 1.25rem;scroll-margin-top:1rem;}
+h3{font-size:1rem;font-weight:700;color:var(--ink);margin:1.6rem 0 .7rem;scroll-margin-top:1rem;}
+h4{font-size:.9rem;font-weight:600;color:var(--ink-mid);margin:1.2rem 0 .5rem;}
+p{margin-bottom:.85rem;max-width:72ch;}
+strong{font-weight:700;}em{font-style:italic;}
+code{font-size:.82rem;background:#f0f4f8;padding:.1rem .3rem;border-radius:3px;font-family:monospace;}
+.tbl-wrap{overflow-x:auto;margin:1rem 0 1.4rem;border-radius:6px;border:1px solid var(--rule);}
+table{width:100%;border-collapse:collapse;font-size:.82rem;font-family:'Helvetica Neue',Arial,sans-serif;}
+thead tr{background:var(--ink);color:#fff;}
+thead th{text-align:left;padding:.55rem .8rem;font-weight:600;font-size:.75rem;letter-spacing:.03em;white-space:nowrap;}
+tbody tr:nth-child(even){background:var(--bg-tint);}
+tbody tr:hover{background:var(--accent-lt);}
+tbody td{padding:.5rem .8rem;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.5;}
+tbody tr:last-child td{border-bottom:none;}
+.re{color:#166534;font-weight:700;}.rg{color:#0369a1;font-weight:700;}
+.rl{color:#92400e;font-weight:700;}.rm{color:#b45309;font-weight:700;}.rp{color:#7f1d1d;font-weight:700;}
+.score-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin:1rem 0 1.75rem;}
+.ssg-box{background:var(--bg-tint);border:1px solid var(--rule);border-radius:8px;padding:.75rem .9rem;text-align:center;font-family:'Helvetica Neue',Arial,sans-serif;}
+.ssg-box .sn{font-size:1.4rem;font-weight:800;color:var(--accent);line-height:1.1;}
+.ssg-box .sl{font-size:.67rem;color:var(--ink-soft);margin-top:.2rem;line-height:1.3;}
+.ssg-box.go-box{border-color:#86efac;background:var(--go-bg);}.ssg-box.go-box .sn{color:var(--go);}
+.callout{border-radius:6px;padding:.9rem 1.1rem;margin:1rem 0;font-size:.88rem;line-height:1.65;}
+.ci{background:var(--accent-lt);border-left:3px solid var(--accent);}
+.cw{background:var(--warn-bg);border-left:3px solid #d97706;}
+.cg{background:var(--go-bg);border-left:3px solid #22c55e;}
+.callout strong{display:block;margin-bottom:.3rem;}
+.sumbox{background:#f0f4ff;border:1px solid #c7d7f5;border-radius:6px;padding:.9rem 1.1rem;margin:1.2rem 0 .5rem;font-size:.87rem;line-height:1.65;color:var(--ink-mid);}
+.sumbox::before{content:"Section Summary";display:block;font-family:'Helvetica Neue',Arial,sans-serif;font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.35rem;font-weight:700;}
+.phase3{background:#14532d;color:#bbf7d0;display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.72rem;font-weight:700;font-family:'Helvetica Neue',Arial,sans-serif;}
+.phase2{background:#1e40af;color:#dbeafe;display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.72rem;font-weight:700;font-family:'Helvetica Neue',Arial,sans-serif;}
+.phase1{background:#374151;color:#e5e7eb;display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.72rem;font-weight:700;font-family:'Helvetica Neue',Arial,sans-serif;}
+a{color:var(--accent);text-decoration:none;}a:hover{text-decoration:underline;}
+hr{border:none;border-top:1px solid var(--rule);margin:2rem 0;}
+ul,ol{padding-left:1.4rem;margin-bottom:.85rem;}
+li{margin-bottom:.4rem;line-height:1.7;font-size:.9rem;}
+li p{margin-bottom:.3rem;}
+blockquote{border-left:4px solid #fbbf24;background:#fffbeb;padding:.7rem 1rem;margin:1rem 0;border-radius:0 4px 4px 0;font-size:.87rem;}
+.vbar{background:linear-gradient(135deg,#0f3460,#1c5fa8);color:#fff;border-radius:8px;padding:1.4rem 1.7rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin:1.5rem 0;}
+.vbar .vl{font-family:'Helvetica Neue',Arial,sans-serif;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:#93c5fd;margin-bottom:.25rem;}
+.vbar .vt{font-size:1.05rem;font-weight:700;}
+.vbar .vs{font-size:2.5rem;font-weight:900;font-family:'Helvetica Neue',Arial,sans-serif;color:#6ab0f5;white-space:nowrap;}
+@media(max-width:900px){.page-shell{grid-template-columns:1fr;}.sidebar{display:none;}.content{padding:1.5rem 1.2rem 3rem;}.score-summary-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="page-shell">
+
+<header class="site-header">
+  <div class="eyebrow">Target Assessment Report &nbsp;·&nbsp; 16 September 2026</div>
+  <h1>FGF21 &nbsp;<span>×</span>&nbsp; Metabolic Dysfunction-Associated Steatohepatitis</h1>
+  <div class="meta-row">
+    <div class="meta-item"><strong>Gene</strong> FGF21 (ENSG00000105550)</div>
+    <div class="meta-item"><strong>UniProt</strong> Q9NSA1</div>
+    <div class="meta-item"><strong>Topology</strong> Secreted hepatokine</div>
+    <div class="meta-item"><strong>Modality</strong> <span class="badge badge-agonist">Agonist</span></div>
+    <div class="meta-item"><strong>Confidence</strong> <span class="badge badge-high">High</span></div>
+    <div class="meta-item"><strong>Decision</strong> <span class="badge badge-go">GO</span></div>
+    <div class="meta-item">
+      <div class="score-hero">
+        <span class="sh-num">90.7%</span>
+        <span class="sh-label">Overall Score</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sidebar"><nav>
+  <div class="nav-section">Report</div>
+  <a href="#1-executive-summary">1. Executive Summary</a>
+  <div class="nav-section">Biology</div>
+  <a href="#2-target-biology-mechanism-of-action">2. Target Biology</a>
+  <a href="#21-gene-protein-overview" class="sub">2.1 Gene &amp; Protein</a>
+  <a href="#22-signalling-mechanism" class="sub">2.2 Signalling</a>
+  <a href="#23-protein-interaction-partners" class="sub">2.3 Interactions</a>
+  <a href="#24-mouse-knockout-models" class="sub">2.4 Mouse KO Models</a>
+  <a href="#25-preclinical-pharmacological-proof-of-concept" class="sub">2.5 Preclinical PoC</a>
+  <div class="nav-section">Genetics</div>
+  <a href="#3-genetic-validation-human-evidence">3. Genetic Validation</a>
+  <a href="#31-gwas-evidence-for-fgf21-in-metabolic-dysfunction-associated-steatohepatitis" class="sub">3.1 GWAS Evidence</a>
+  <a href="#32-gnomad-constraint-analysis" class="sub">3.2 gnomAD Constraint</a>
+  <a href="#33-published-genetic-association-evidence-pubmed" class="sub">3.3 PubMed Associations</a>
+  <a href="#34-integrated-human-genetics-verdict" class="sub">3.4 Verdict</a>
+  <a href="#35-tissue-distribution-human-protein-atlas" class="sub">3.5 Tissue Distribution</a>
+  <div class="nav-section">Structure</div>
+  <a href="#4-structural-tractability-assessment">4. Structural Tractability</a>
+  <div class="nav-section">Safety</div>
+  <a href="#5-target-safety-evaluation">5. Target Safety</a>
+  <a href="#51-loss-of-function-safety-profile" class="sub">5.1 Loss-of-Function</a>
+  <a href="#52-gain-of-function-validation" class="sub">5.2 Gain-of-Function</a>
+  <div class="nav-section">Competitive</div>
+  <a href="#6-competitive-landscape-pipeline-analysis">6. Competitive Landscape</a>
+  <div class="nav-section">Scores</div>
+  <a href="#7-overall-target-assessment-scores">7. Overall Scores</a>
+  <a href="#71-rubric-scored-target-validation-assessment" class="sub">7.1 Target Validation</a>
+  <a href="#72-target-safety-assessment" class="sub">7.2 Safety</a>
+  <a href="#73-overall-weighted-score" class="sub">7.3 Weighted Score</a>
+  <div class="nav-section">Conclusion</div>
+  <a href="#8-conclusions">8. Conclusions</a>
+</nav></nav>
+
+<main class="content">
+
+<div class="score-summary-grid">
+  <div class="ssg-box go-box"><div class="sn">9/9</div><div class="sl">Target Validation</div></div>
+  <div class="ssg-box go-box"><div class="sn">14/15</div><div class="sl">Safety Score</div></div>
+  <div class="ssg-box"><div class="sn">1/4</div><div class="sl">De-risk Plans</div></div>
+  <div class="ssg-box"><div class="sn">3</div><div class="sl">Phase 3 Assets</div></div>
+</div>
+
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+
+<ul>
+<li><strong>Therapeutic Direction &amp; Mechanism:</strong> An agonist strategy for FGF21 is strongly supported by biological rationale and clinical proof-of-concept; FGF21 is an endocrine hepatokine that coordinates hepatic lipid catabolism, improves insulin sensitivity, and reduces liver lipotoxicity, thereby addressing the core pathophysiological drivers of metabolic dysfunction-associated steatohepatitis (MASH) (<a href="https://pubmed.ncbi.nlm.nih.gov/36618930/">PMID 36618930</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/38782182/">PMID 38782182</a>).</li>
+<li><strong>Genetic Validation:</strong> While standard GWAS catalog queries lack direct case-control associations for binary MASH diagnosis, robust Mendelian randomization and pQTL studies confirm that genetically instrumented higher circulating FGF21 levels causally improve lipid profiles, lower C-reactive protein, and reduce hepatic steatosis and fibrosis markers (<a href="https://pubmed.ncbi.nlm.nih.gov/36208799/">PMID 36208799</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/37302695/">PMID 37302695</a>).</li>
+<li><strong>Preclinical Proof-of-Concept:</strong> Pharmacological target activation using recombinant FGF21, long-acting Fc-fusions, PEGylated analogs, and bispecific FGFR1c/$\beta$-Klotho agonist antibodies consistently resolves steatohepatitis, normalizes transaminases, induces adipose browning, and represses profibrotic extracellular matrix genes across rodent and non-human primate models (<a href="https://pubmed.ncbi.nlm.nih.gov/41150667/">PMID 41150667</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/39463193/">PMID 39463193</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/33421947/">PMID 33421947</a>).</li>
+<li><strong>Safety &amp; Target Liability:</strong> gnomAD constraint demonstrates evolutionary tolerance to heterozygous loss of function ($\text{LOEUF} = 1.54$, $\text{pLI} = 3.34 \times 10^{-5}$), confirming non-essentiality; primary on-target liabilities identified in gain-of-function models are exposure-dependent bone mineral density reduction via PPAR-$\gamma$ potentiation and endocrine/somatotropic axis modulation at supratherapeutic levels (<a href="https://pubmed.ncbi.nlm.nih.gov/22315431/">PMID 22315431</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/30389664/">PMID 30389664</a>), alongside a $\sim$1.3-fold safety attrition risk based on 11 IntAct physical interaction partners.</li>
+<li><strong>Competitive Landscape:</strong> The investigational pipeline is exceptionally advanced with no currently approved agents but three distinct assets in Phase 3 development (pegozafermin, efruxifermin, efimosfermin alfa) and multiple Phase 2 programs across 16 registered clinical trials on ClinicalTrials.gov.</li>
+<li><strong>Tractability Verdict:</strong> FGF21 exhibits high overall tractability as a therapeutic target for MASH, supported by definitive clinical-stage antifibrotic and steatosis-reversing efficacy; successful development requires optimizing pharmacokinetic half-life while monitoring bone turnover and reproductive axis biomarkers.</li>
+</ul>
+
+<hr />
+
+<h2 id="2-target-biology-mechanism-of-action">2. Target Biology &amp; Mechanism of Action</h2>
+
+<h3 id="21-gene-protein-overview">2.1 Gene &amp; Protein Overview</h3>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Property</th>
+  <th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Gene Symbol</strong></td>
+  <td>FGF21</td>
+</tr>
+<tr>
+  <td><strong>UniProt Accession</strong></td>
+  <td>Q9NSA1</td>
+</tr>
+<tr>
+  <td><strong>Protein Name</strong></td>
+  <td>Fibroblast growth factor 21</td>
+</tr>
+<tr>
+  <td><strong>Sequence Length</strong></td>
+  <td>209 amino acids</td>
+</tr>
+<tr>
+  <td><strong>Topology Class</strong></td>
+  <td>Secreted / extracellular</td>
+</tr>
+<tr>
+  <td><strong>Transmembrane Helices</strong></td>
+  <td>0</td>
+</tr>
+<tr>
+  <td><strong>Subcellular Location</strong></td>
+  <td>Secreted (circulating hepatokine)</td>
+</tr>
+<tr>
+  <td><strong>Domain Architecture</strong></td>
+  <td>Core FGF-homology domain; C-terminal disordered region (residues 143–209) mediating $\beta$-Klotho binding</td>
+</tr>
+<tr>
+  <td><strong>Signal Peptide</strong></td>
+  <td>Cleaved N-terminal secretory signal peptide (residues 1–28)</td>
+</tr>
+</tbody>
+</table></div>
+
+<h3 id="22-signalling-mechanism">2.2 Signalling Mechanism</h3>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Entity A</th>
+  <th>Effect</th>
+  <th>Entity B</th>
+  <th>Mechanism</th>
+  <th>Score</th>
+  <th>PMID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>ATF4</td>
+  <td>up-regulates quantity by expression</td>
+  <td>FGF21</td>
+  <td>transcriptional regulation</td>
+  <td>0.425</td>
+  <td><a href="https://pubmed.ncbi.nlm.nih.gov/22233381/">PMID 22233381</a></td>
+</tr>
+<tr>
+  <td>ATF2</td>
+  <td>up-regulates quantity by expression</td>
+  <td>FGF21</td>
+  <td>transcriptional regulation</td>
+  <td>0.343</td>
+  <td><a href="https://pubmed.ncbi.nlm.nih.gov/25055037/">PMID 25055037</a></td>
+</tr>
+<tr>
+  <td>TFEB</td>
+  <td>up-regulates quantity by expression</td>
+  <td>FGF21</td>
+  <td>transcriptional regulation</td>
+  <td>0.273</td>
+  <td><a href="https://pubmed.ncbi.nlm.nih.gov/32978159/">PMID 32978159</a></td>
+</tr>
+<tr>
+  <td>DNMT3A</td>
+  <td>down-regulates quantity by repression</td>
+  <td>FGF21</td>
+  <td>transcriptional regulation</td>
+  <td>0.200</td>
+  <td><a href="https://pubmed.ncbi.nlm.nih.gov/29091029/">PMID 29091029</a></td>
+</tr>
+</tbody>
+</table></div>
+
+<p>FGF21 expression is tightly regulated at the transcriptional level by metabolic and cellular stress sensors. Activating transcription factor 4 (ATF4; <a href="https://pubmed.ncbi.nlm.nih.gov/22233381/">PMID 22233381</a>), activating transcription factor 2 (ATF2; <a href="https://pubmed.ncbi.nlm.nih.gov/25055037/">PMID 25055037</a>), and transcription factor EB (TFEB; <a href="https://pubmed.ncbi.nlm.nih.gov/32978159/">PMID 32978159</a>) directly stimulate hepatic <em>FGF21</em> transcription during amino acid deprivation, mitochondrial stress, and starvation, whereas DNA methyltransferase 3A (DNMT3A; <a href="https://pubmed.ncbi.nlm.nih.gov/29091029/">PMID 29091029</a>) represses expression via epigenetic promoter methylation. </p>
+
+<p>Canonical pathway annotations link FGF21 to <em>Cellular hexose transport</em> (R-HSA-189200) and <em>Assembly of active LPL and LIPC lipase complexes</em> (R-HSA-8963889), reflecting its primary role in governing glucose uptake and lipid partitioning. Open Targets disease association scoring strongly corroborates these metabolic links, identifying high association scores between FGF21 and obesity due to melanocortin 4 receptor deficiency (score: 0.622), type 2 diabetes mellitus (score: 0.595), hepatocellular carcinoma (score: 0.595), and metabolic dysfunction-associated steatotic liver disease (MASLD/MASH; score: 0.591).</p>
+
+<h3 id="23-protein-interaction-partners">2.3 Protein Interaction Partners</h3>
+
+<p>Total interaction partners (UniProt): 10</p>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Partner Gene</th>
+  <th>UniProt Accession</th>
+  <th>Experiments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>BAG6</td>
+  <td>P46379-2</td>
+  <td>3</td>
+</tr>
+<tr>
+  <td>CASP6</td>
+  <td>P55212</td>
+  <td>3</td>
+</tr>
+<tr>
+  <td>DNALI1</td>
+  <td>O14645</td>
+  <td>3</td>
+</tr>
+<tr>
+  <td>FKBP1A</td>
+  <td>Q0VDC6</td>
+  <td>3</td>
+</tr>
+<tr>
+  <td>HSPA2</td>
+  <td>P54652</td>
+  <td>4</td>
+</tr>
+<tr>
+  <td>KLB</td>
+  <td>Q86Z14</td>
+  <td>2</td>
+</tr>
+<tr>
+  <td>KLF11</td>
+  <td>O14901</td>
+  <td>3</td>
+</tr>
+<tr>
+  <td>LAMP2</td>
+  <td>P13473-2</td>
+  <td>3</td>
+</tr>
+<tr>
+  <td>SGTA</td>
+  <td>O43765</td>
+  <td>3</td>
+</tr>
+<tr>
+  <td>SGTB</td>
+  <td>Q96EQ0</td>
+  <td>3</td>
+</tr>
+</tbody>
+</table></div>
+
+<h3 id="24-mouse-knockout-models">2.4 Mouse Knockout Models</h3>
+
+<div class="callout cw"><blockquote>
+  <p><em>Unable to locate source</em>
+  _(No significant IMPC phenotype calls found for FGF21. Verify the gene symbol casing or check IMPC coverage.)_</p>
+</blockquote></div>
+
+<hr />
+
+<h3 id="25-preclinical-pharmacological-proof-of-concept">2.5 Preclinical Pharmacological Proof-of-Concept</h3>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th style="text-align:left;">PMID</th>
+  <th style="text-align:left;">Title</th>
+  <th style="text-align:left;">Year</th>
+  <th style="text-align:left;">Has Full Text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/34526227/">PMID 34526227</a>)</td>
+  <td style="text-align:left;">Stress-induced FGF21 and GDF15 in obesity and obesity resistance.</td>
+  <td style="text-align:left;">2021</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/40209593/">PMID 40209593</a>)</td>
+  <td style="text-align:left;">Engineered extracellular vesicles with surface FGF21 and enclosed miR-223 for treating metabolic dysfunction-associated steatohepatitis.</td>
+  <td style="text-align:left;">2025</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/36012166/">PMID 36012166</a>)</td>
+  <td style="text-align:left;">Recombinant FGF21 Attenuates Polychlorinated Biphenyl-Induced NAFLD/NASH by Modulating Hepatic Lipocalin-2 Expression.</td>
+  <td style="text-align:left;">2022</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/38943639/">PMID 38943639</a>)</td>
+  <td style="text-align:left;">BACH1 inhibits senescence, obesity, and short lifespan by ferroptotic FGF21 secretion.</td>
+  <td style="text-align:left;">2024</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/36642986/">PMID 36642986</a>)</td>
+  <td style="text-align:left;">Mitochondrial stress and mitokines in aging.</td>
+  <td style="text-align:left;">2023</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/28199304/">PMID 28199304</a>)</td>
+  <td style="text-align:left;">Adipose-derived circulating miRNAs regulate gene expression in other tissues.</td>
+  <td style="text-align:left;">2017</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/38004466/">PMID 38004466</a>)</td>
+  <td style="text-align:left;">The Novel Tetra-Specific Drug C-192, Conjugated Using UniStac, Alleviates Non-Alcoholic Steatohepatitis in an MCD Diet-Induced Mouse Model.</td>
+  <td style="text-align:left;">2023</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/26654352/">PMID 26654352</a>)</td>
+  <td style="text-align:left;">Understanding the Physiology of FGF21.</td>
+  <td style="text-align:left;">2016</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/33277568/">PMID 33277568</a>)</td>
+  <td style="text-align:left;">Discovery of a novel fibroblast activation protein (FAP) inhibitor, BR103354, with anti-diabetic and anti-steatotic effects.</td>
+  <td style="text-align:left;">2020</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/40496439/">PMID 40496439</a>)</td>
+  <td style="text-align:left;">Mitochondrial dysfunction characterises the multigenerational effects of maternal obesity on MASLD.</td>
+  <td style="text-align:left;">2025</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/32366854/">PMID 32366854</a>)</td>
+  <td style="text-align:left;">Novel Combinatorial Regimen of Garcinol and Curcuminoids for Non-alcoholic Steatohepatitis (NASH) in Mice.</td>
+  <td style="text-align:left;">2020</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/40765085/">PMID 40765085</a>)</td>
+  <td style="text-align:left;">FGF21 Analogues and MASLD: A Summary of Preclinical and Clinical Data.</td>
+  <td style="text-align:left;">2026</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/35014168/">PMID 35014168</a>)</td>
+  <td style="text-align:left;">Efficacy of fibroblast growth factor 21 in non-alcoholic fatty liver disease in guinea pigs.</td>
+  <td style="text-align:left;">2022</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/38599281/">PMID 38599281</a>)</td>
+  <td style="text-align:left;">FGF21 ameliorates septic liver injury by restraining proinflammatory macrophages activation through the autophagy/HIF-1α axis.</td>
+  <td style="text-align:left;">2025</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/38894596/">PMID 38894596</a>)</td>
+  <td style="text-align:left;">Fibroblast growth factor 21 is a hepatokine involved in MASLD progression.</td>
+  <td style="text-align:left;">2024</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/38710230/">PMID 38710230</a>)</td>
+  <td style="text-align:left;">FGF21 agonists: An emerging therapeutic for metabolic dysfunction-associated steatohepatitis and beyond.</td>
+  <td style="text-align:left;">2024</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/41135635/">PMID 41135635</a>)</td>
+  <td style="text-align:left;">Pin1 mediates metabolic dysfunction-associated steatohepatitis in mice fed high-fat, high-cholesterol diet by regulating both PPARα and acetyl CoA carboxylase.</td>
+  <td style="text-align:left;">2026</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/40527315/">PMID 40527315</a>)</td>
+  <td style="text-align:left;">FGF21 promotes longevity in diet-induced obesity through metabolic benefits independent of growth suppression.</td>
+  <td style="text-align:left;">2025</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/29859019/">PMID 29859019</a>)</td>
+  <td style="text-align:left;">A long-acting FGF21 alleviates hepatic steatosis and inflammation in a mouse model of non-alcoholic steatohepatitis partly through an FGF21-adiponectin-IL17A pathway.</td>
+  <td style="text-align:left;">2018</td>
+  <td style="text-align:left;">No</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/39651131/">PMID 39651131</a>)</td>
+  <td style="text-align:left;">Sexual dimorphism of MASLD-driven bone loss.</td>
+  <td style="text-align:left;">2024</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/31322211/">PMID 31322211</a>)</td>
+  <td style="text-align:left;">Ascorbic acid attenuates cell stress by activating the fibroblast growth factor 21/fibroblast growth factor receptor 2/adiponectin pathway in HepG2 cells.</td>
+  <td style="text-align:left;">2019</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/21216282/">PMID 21216282</a>)</td>
+  <td style="text-align:left;">Lipotoxicity and steatohepatitis in an overfed mouse model for non-alcoholic fatty liver disease.</td>
+  <td style="text-align:left;">2011</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/37951850/">PMID 37951850</a>)</td>
+  <td style="text-align:left;">Potential role of Akt in the regulation of fibroblast growth factor 21 by berberine.</td>
+  <td style="text-align:left;">2024</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/34675003/">PMID 34675003</a>)</td>
+  <td style="text-align:left;">Hepatic CPT1A Facilitates Liver-Adipose Cross-Talk via Induction of FGF21 in Mice.</td>
+  <td style="text-align:left;">2021</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/38740172/">PMID 38740172</a>)</td>
+  <td style="text-align:left;">Enhanced bioactivity and stability of a long-acting FGF21: A novel variant for the treatment of NASH.</td>
+  <td style="text-align:left;">2024</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/41150667/">PMID 41150667</a>)</td>
+  <td style="text-align:left;">The combination of zalfermin and semaglutide has additive therapeutic effects in a diet-induced obese and biopsy-confirmed mouse model of MASH.</td>
+  <td style="text-align:left;">2025</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/41299066/">PMID 41299066</a>)</td>
+  <td style="text-align:left;">Aberrant lipid metabolism renders an aggressive behavior of T-lymphoblastic lymphoma in a MASH model.</td>
+  <td style="text-align:left;">2026</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/34239138/">PMID 34239138</a>)</td>
+  <td style="text-align:left;">Efruxifermin in non-alcoholic steatohepatitis: a randomized, double-blind, placebo-controlled, phase 2a trial.</td>
+  <td style="text-align:left;">2021</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/39947331/">PMID 39947331</a>)</td>
+  <td style="text-align:left;">Protein phosphatase 6 regulates metabolic dysfunction-associated steatohepatitis via the mTORC1 pathway.</td>
+  <td style="text-align:left;">2025</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/27293995/">PMID 27293995</a>)</td>
+  <td style="text-align:left;">Lack of fibroblast growth factor 21 accelerates metabolic liver injury characterized by steatohepatities in mice.</td>
+  <td style="text-align:left;">2016</td>
+  <td style="text-align:left;">No</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/34518687/">PMID 34518687</a>)</td>
+  <td style="text-align:left;">Molecular mechanisms of dietary restriction promoting health and longevity.</td>
+  <td style="text-align:left;">2022</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/40803572/">PMID 40803572</a>)</td>
+  <td style="text-align:left;">Future potential therapeutics to treat MASH.</td>
+  <td style="text-align:left;">2025</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/36594101/">PMID 36594101</a>)</td>
+  <td style="text-align:left;">Targeting FGF21 in cardiovascular and metabolic diseases: from mechanism to medicine.</td>
+  <td style="text-align:left;">2023</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/36134579/">PMID 36134579</a>)</td>
+  <td style="text-align:left;">FGF21-Sirtuin 3 Axis Confers the Protective Effects of Exercise Against Diabetic Cardiomyopathy by Governing Mitochondrial Integrity.</td>
+  <td style="text-align:left;">2022</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/33421947/">PMID 33421947</a>)</td>
+  <td style="text-align:left;">A novel GLP-1 and FGF21 dual agonist has therapeutic potential for diabetes and non-alcoholic steatohepatitis.</td>
+  <td style="text-align:left;">2021</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/36509749/">PMID 36509749</a>)</td>
+  <td style="text-align:left;">SIRT7 suppresses energy expenditure and thermogenesis by regulating brown adipose tissue functions in mice.</td>
+  <td style="text-align:left;">2022</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/38301798/">PMID 38301798</a>)</td>
+  <td style="text-align:left;">NAFLD and NASH: etiology, targets and emerging therapies.</td>
+  <td style="text-align:left;">2024</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/34667947/">PMID 34667947</a>)</td>
+  <td style="text-align:left;">New targets for NAFLD.</td>
+  <td style="text-align:left;">2021</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/33758421/">PMID 33758421</a>)</td>
+  <td style="text-align:left;">Metabolic Messengers: FGF21.</td>
+  <td style="text-align:left;">2021</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/39463193/">PMID 39463193</a>)</td>
+  <td style="text-align:left;">Therapeutic effects of FGF21 mimetic bFKB1 on MASH and atherosclerosis in Ldlr-/-.Leiden mice.</td>
+  <td style="text-align:left;">2024</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+  <td style="text-align:left;">(<a href="https://pubmed.ncbi.nlm.nih.gov/40594911/">PMID 40594911</a>)</td>
+  <td style="text-align:left;">Sexual dimorphism of MASLD-driven bone loss.</td>
+  <td style="text-align:left;">2025</td>
+  <td style="text-align:left;">Yes</td>
+</tr>
+</tbody>
+</table></div>
+
+<p>Extensive preclinical interventional and genetic studies provide robust proof-of-concept for an <strong>agonist</strong> strategy targeting FGF21 in metabolic dysfunction-associated steatohepatitis (MASH) and steatotic liver disease (MASLD). In translational dietary models of MASH, administration of recombinant FGF21, long-acting analogs, or receptor mimetics consistently resolves steatosis, attenuates lobular inflammation, and arrests fibrogenesis. In AMLN diet-induced obese MASH mice with biopsy-confirmed disease, monotherapy with the long-acting fatty acid-modified FGF21 analog zalfermin (0.2 mg/kg QD) or low-dose zalfermin (0.05 mg/kg) combined with semaglutide achieved substantial body weight loss (-16% to -18%), normalized plasma ALT and AST, depleted liver triglycerides, reduced NAFLD Activity Scores (NAS), and suppressed extracellular matrix (ECM) remodeling genes (such as <em>Col1a1</em>, <em>Col3a1</em>, <em>Col4a1</em>, and <em>Loxl2</em>) independent of body weight loss (<a href="https://pubmed.ncbi.nlm.nih.gov/41150667/">PMID 41150667</a>). Similarly, in high-fat diet-fed $Ldlr^{-/-}\text{.Leiden}$ mice, the bispecific anti-FGFR1c/$\beta$-Klotho agonist antibody bFKB1 (5 mg/kg weekly) reduced body weight (-21%), plasma insulin (-80%), plasma ALT (-79%), liver weight (-43%), macrovesicular steatosis (-34%), and hepatic microvesicular steatosis (-100%), alongside a 49% reduction in de novo collagen synthesis, broad inactivation of hepatic TGF-$\beta$/SMAD signaling, adipose browning (8.5-fold UCP1 induction), and a 38% reduction in aortic atherosclerotic lesion area (<a href="https://pubmed.ncbi.nlm.nih.gov/39463193/">PMID 39463193</a>). Engineered modalities—including a GLP-1/Fc-FGF21 dual agonist (drug pipeline) in $ob/ob$ DIO-MASH mice (<a href="https://pubmed.ncbi.nlm.nih.gov/33421947/">PMID 33421947</a>), tetra-specific C-192 targeting GLP-1/GCG/FGF21/IL-1RA in MCD-fed mice (<a href="https://pubmed.ncbi.nlm.nih.gov/38004466/">PMID 38004466</a>), and surface FGF21-displaying extracellular vesicles (223/F-EVs) in CDAHFD mice (<a href="https://pubmed.ncbi.nlm.nih.gov/40209593/">PMID 40209593</a>)—replicated pronounced steatosis and inflammation improvements. In a multigenerational maternal Western diet model, wild-type FGF21 (0.3 mg/kg BID) reversed steatohepatitis and restored hepatic mitochondrial oxidative phosphorylation (OXPHOS) and biogenesis (<em>Pgc1α</em>, <em>Nrf1</em>) (<a href="https://pubmed.ncbi.nlm.nih.gov/40496439/">PMID 40496439</a>). Mechanistically, FGF21 signaling through FGFRs/$\beta$-Klotho recruits serine/threonine phosphatase PPP6C to dephosphorylate TSC2, thereby repressing hepatic mTORC1 and driving TFE3/Lipin1 nuclear translocation (<a href="https://pubmed.ncbi.nlm.nih.gov/39947331/">PMID 39947331</a>). In toxicant-associated steatohepatitis, recombinant FGF21 suppressed hepatic lipocalin-2 (LCN2) overexpression, reducing steatosis and iron overload (<a href="https://pubmed.ncbi.nlm.nih.gov/36012166/">PMID 36012166</a>). Engineered long-acting fusion variants such as PsTag-FGF21(V169L) (<a href="https://pubmed.ncbi.nlm.nih.gov/38740172/">PMID 38740172</a>) and PsTag600-FGF21 <em>(<a href="https://pubmed.ncbi.nlm.nih.gov/29859019/">PMID 29859019</a>; full-text retrieval failed; findings based on abstract only; additional body-text content may have been missed)</em> also demonstrated enhanced pharmacokinetic stability, reduced hepatocyte apoptosis, and decreased IL17A-driven inflammation. </p>
+
+<p>Loss-of-function and gain-of-function models reinforce this mechanism: <em>Fgf21</em> knockout mice fed high-fat, high-carbohydrate, or methionine-choline-deficient diets exhibit accelerated, severe steatohepatitis, elevated free fatty acids, exacerbated macrophage activation, and heightened oncogenic Wnt/$\beta$-catenin activation <em>(<a href="https://pubmed.ncbi.nlm.nih.gov/27293995/">PMID 27293995</a>; full-text retrieval failed; findings based on abstract only; additional body-text content may have been missed; <a href="https://pubmed.ncbi.nlm.nih.gov/41299066/">PMID 41299066</a>; <a href="https://pubmed.ncbi.nlm.nih.gov/38599281/">PMID 38599281</a>)</em>. Conversely, adult-onset adipocyte-specific FGF21 overexpression in HFD-fed mice extended median survival to 2.225 years (with individuals reaching 3.3 years), sustained whole-body insulin sensitivity, eliminated microvesicular steatosis, and remodeled visceral adipose tissue by reducing lipotoxic ceramides and promoting anti-inflammatory M2 macrophage polarization (<a href="https://pubmed.ncbi.nlm.nih.gov/40527315/">PMID 40527315</a>). While preclinical models highlight occasional on-target safety considerations—such as potential bone resorption under non-targeted high-dose overexpression (<a href="https://pubmed.ncbi.nlm.nih.gov/40594911/">PMID 40594911</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/39651131/">PMID 39651131</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/36594101/">PMID 36594101</a>) or elevated circulating FGF21 marking an endogenous "FGF21-resistant" state in severe obesity (<a href="https://pubmed.ncbi.nlm.nih.gov/38894596/">PMID 38894596</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/38710230/">PMID 38710230</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/33758421/">PMID 33758421</a>)—pharmacological FGF21 agonism successfully overrides endogenous resistance and delivers comprehensive hepatoprotective, anti-inflammatory, and metabolic efficacy across diverse preclinical species.</p>
+
+<hr />
+
+<h4 id="section-summary">Section Summary</h4>
+
+<p>Preclinical evidence provides strong validation for an <strong>agonist</strong> therapeutic strategy targeting FGF21 in MASH. Although standardized high-throughput International Mouse Phenotyping Consortium (IMPC) knockout data were unavailable for <em>Fgf21</em> (Section 2.4), extensive literature-derived genetic and interventional models (Section 2.5) demonstrate that genetic ablation (<em>Fgf21</em> KO) accelerates hepatic steatosis, inflammatory infiltration, and cellular injury, directly supporting the rationale for target activation. Recombinant FGF21, long-acting analogs (e.g., zalfermin, efruxifermin mimetics), bispecific receptor agonists (bFKB1), and multi-agonist fusion proteins consistently resolve steatohepatitis, normalize transaminases, enhance mitochondrial biogenesis, and downregulate profibrotic extracellular matrix gene expression programs across dietary and toxicant-induced rodent models. Together, these robust pharmacological and genetic data confirm high preclinical tractability for FGF21 pathway activation in MASH.</p>
+
+<hr />
+
+<h2 id="3-genetic-validation-human-evidence">3. Genetic Validation &amp; Human Evidence</h2>
+
+<h3 id="31-gwas-evidence-for-fgf21-in-metabolic-dysfunction-associated-steatohepatitis">3.1 GWAS Evidence for FGF21 in Metabolic Dysfunction-Associated Steatohepatitis</h3>
+
+<p>Across the 50 GWAS Catalog associations provided for the <em>FGF21</em> locus, all 50 associations were evaluated under gene-attribution and disease-relevance criteria.</p>
+
+<h4 id="clean-associations-direct-evidence-for-fgf21-in-mash">Clean Associations (Direct Evidence for FGF21 in MASH)</h4>
+
+<ul>
+<li><strong>Count:</strong> 0 hits.</li>
+<li><strong>Assessment:</strong> There are <strong>no clean, disease-relevant GWAS hits</strong> directly linking <em>FGF21</em> sequence variation to metabolic dysfunction-associated steatohepatitis (MASH/MASLD) or direct clinical endpoints of liver steatohepatitis/fibrosis in the provided GWAS Catalog dataset. </li>
+</ul>
+
+<p>Because zero hits meet both the gene-clean and disease-relevance criteria in this dataset, direct genetic validation of <em>FGF21</em> for MASH from standard GWAS catalog primary hits is absent, necessitating reliance on published Mendelian randomization (MR) and protein quantitative trait locus (pQTL) triangulation in the literature (detailed in Section 3.3).</p>
+
+<hr />
+
+<h4 id="flagged-confounded-associations-bucket-2">Flagged / Confounded Associations (Bucket 2)</h4>
+
+<p>Four associations within the locus were flagged as confounded by gene attribution because the curated GWAS Catalog record explicitly assigned the signal to another nearby gene rather than <em>FGF21</em>:</p>
+
+<ul>
+<li><strong>rs62132803</strong> — Serum alkaline phosphatase levels ($p = 2 \times 10^{-107}, \beta = 0.0585$, <a href="https://pubmed.ncbi.nlm.nih.gov/33462484/">PMID 33462484</a>); flagged as <strong>OTHER GENE (NR)</strong>.</li>
+<li><strong>rs2548957</strong> — Serum alkaline phosphatase levels ($p = 1 \times 10^{-74}, \beta = 0.0438$, <a href="https://pubmed.ncbi.nlm.nih.gov/33462484/">PMID 33462484</a>); flagged as <strong>OTHER GENE (NR)</strong>.</li>
+<li><strong>rs3826821</strong> — Serum alkaline phosphatase levels ($p = 9 \times 10^{-46}, \beta = 0.0631$, <a href="https://pubmed.ncbi.nlm.nih.gov/33462484/">PMID 33462484</a>); flagged as <strong>OTHER GENE (NR)</strong>.</li>
+<li><strong>rs62132803</strong> — Gamma glutamyl transferase levels ($p = 2 \times 10^{-33}, \beta = 0.0320$, <a href="https://pubmed.ncbi.nlm.nih.gov/33462484/">PMID 33462484</a>); flagged as <strong>OTHER GENE (NR)</strong>.</li>
+</ul>
+
+<p><em>Exclusion rationale:</em> These associations map to neighbouring genes in linkage disequilibrium at chromosome 19q13.33 and reflect independent regulatory signals for those loci. They must not be counted as genetic evidence for <em>FGF21</em>.</p>
+
+<hr />
+
+<h4 id="gene-confirmed-but-off-topic-associations-bucket-3">Gene-Confirmed but Off-Topic Associations (Bucket 3)</h4>
+
+<p>A total of 46 associations represent gene-clean signals (curated as <em>FGF21</em> MATCH or NR without conflicting gene flags) that associate with intermediate physiological, behavioral, or biochemical traits without established direct disease equivalence for MASH diagnosis:</p>
+
+<ul>
+<li><strong>Circulating FGF21 pQTLs:</strong> Multiple genome-wide significant <em>cis</em>-pQTL signals directly confirm robust genetic regulation of circulating FGF21 levels, including <strong>rs2548957</strong> ($p = 2 \times 10^{-160}, \beta = 0.1381; p = 3.0 \times 10^{-106}, \beta = 0.1256; p = 8 \times 10^{-89}, \beta = 0.1233$, <a href="https://pubmed.ncbi.nlm.nih.gov/42097137/">PMID 42097137</a>; and $p = 2.0 \times 10^{-42}, \beta = 0.1810$, <a href="https://pubmed.ncbi.nlm.nih.gov/36208799/">PMID 36208799</a>), <strong>rs838131</strong> ($p = 3 \times 10^{-89}, \beta = 0.1078$, <a href="https://pubmed.ncbi.nlm.nih.gov/39789286/">PMID 39789286</a>), and the FABP4/FGF21 ratio (<strong>rs2548957</strong>, $p = 1.0 \times 10^{-86}, \beta = 0.1310$, <a href="https://pubmed.ncbi.nlm.nih.gov/38412862/">PMID 38412862</a>).</li>
+<li><strong>Dietary and Gustatory Preference:</strong> The locus variant <strong>rs838133</strong> strongly associates with dietary macronutrient choices, including sweet food liking ($p = 1 \times 10^{-36}, \beta = 0.0463$, <a href="https://pubmed.ncbi.nlm.nih.gov/35585065/">PMID 35585065</a>) and cake/biscuit liking ($p = 2 \times 10^{-35}, \beta = 0.1377$, <a href="https://pubmed.ncbi.nlm.nih.gov/35585065/">PMID 35585065</a>).</li>
+<li><strong>Alcohol Consumption:</strong> Variants <strong>rs838133</strong> ($p = 8 \times 10^{-48}, \beta = 0.0124$, <a href="https://pubmed.ncbi.nlm.nih.gov/36477530/">PMID 36477530</a>) and <strong>rs2081194</strong> ($p = 1 \times 10^{-40}, \beta = 0.0125$, <a href="https://pubmed.ncbi.nlm.nih.gov/36477530/">PMID 36477530</a>) associate with self-reported drinks per week.</li>
+<li><strong>Circulating Lipids and Metabolites:</strong> Variant <strong>rs838133</strong> associates with blood urea nitrogen / urea ($p = 2.0 \times 10^{-82}, \beta = 0.0384$, <a href="https://pubmed.ncbi.nlm.nih.gov/39789286/">PMID 39789286</a>; $p = 2.0 \times 10^{-66}, \beta = 0.0409$, <a href="https://pubmed.ncbi.nlm.nih.gov/34594039/">PMID 34594039</a>), circulating triglyceride levels ($p = 1 \times 10^{-37}$, <a href="https://pubmed.ncbi.nlm.nih.gov/34887591/">PMID 34887591</a>; $p = 2 \times 10^{-33}, \beta = 0.0248$, MATCH, <a href="https://pubmed.ncbi.nlm.nih.gov/32203549/">PMID 32203549</a>), triglyceride content across HDL/VLDL/LDL subfractions ($p = 10^{-31}$ to $10^{-42}$, <a href="https://pubmed.ncbi.nlm.nih.gov/41044249/">PMID 41044249</a>), fatty acid saturation ratios (<strong>rs838133</strong>, <strong>rs1698113</strong>, <a href="https://pubmed.ncbi.nlm.nih.gov/41044249/">PMID 41044249</a>), and human milk oligosaccharide concentrations (<a href="https://pubmed.ncbi.nlm.nih.gov/39232002/">PMID 39232002</a>).</li>
+<li><strong>Trans-pQTLs and Regional Proteomic Associations:</strong> Additional local variants associate with levels of KLK1 (rs514080, rs201526965, rs73585730, rs112955485, rs73059532, rs78841906), HSD17B14 (rs34197159, rs79390987), MUC2 (rs116617472), CDH17 (rs2231861, rs73585730), and CDH1 (rs2231861) (<a href="https://pubmed.ncbi.nlm.nih.gov/39789286/">PMID 39789286</a>).</li>
+</ul>
+
+<p><em>Summary of Off-Topic Hits:</em> These 46 hits validate that the <em>FGF21</em> locus exerts profound endocrine and behavioral effects—particularly governing macronutrient preference, alcohol intake, and circulating lipid profiles—but they cannot be interpreted as direct binary or continuous risk associations for MASH itself.</p>
+
+<hr />
+
+<h3 id="32-gnomad-constraint-analysis">3.2 gnomAD Constraint Analysis</h3>
+
+<h4 id="321-gene-level-constraint">3.2.1 Gene-Level Constraint</h4>
+
+<ul>
+<li><strong>Constraint Metrics (gnomAD v4):</strong> $\text{pLI} = 3.34 \times 10^{-5}$; $\text{LOEUF} (\text{oe_lof_upper}) = 1.541$; observed LoF ($n_{\text{obs}}$) = 13; expected LoF ($n_{\text{exp}}$) = 13.41; $\text{o/e} = 0.969$; $\text{mis_z} = -0.792$.</li>
+<li><strong>Interpretation for an Agonist Strategy:</strong> <em>FGF21</em> is completely unconstrained against loss-of-function variation ($\text{LOEUF} &gt; 1.0$, $\text{pLI} \approx 0$). The observed number of LoF variants matches expectation ($13 \text{ observed vs. } 13.41 \text{ expected}$), demonstrating neutral evolutionary selection against heterozygous gene inactivation in healthy populations. For an <strong>agonist strategy</strong>, LoF tolerance confirms that <em>FGF21</em> is not an essential housekeeping gene whose baseline expression is required for survival. However, constraint against LoF does not indicate safety for target hyper-activation; safety margins for an agonist must instead be assessed by evaluating the systemic physiological consequences of chronic supra-physiological receptor stimulation (e.g., bone turnover, sympathetic activation, or gastrointestinal effects ).</li>
+</ul>
+
+<h4 id="322-natural-lof-variant-landscape">3.2.2 Natural LoF Variant Landscape</h4>
+
+<ul>
+<li><strong>Variant Frequency:</strong> In gnomAD v4, 20 high-confidence LoF variants (including stop-gained, frameshift, and essential splice-site variants) are identified.</li>
+<li><strong>Allele Frequencies:</strong> All 20 variants are ultra-rare, with allele frequencies ranging from $6.84 \times 10^{-7}$ to $6.17 \times 10^{-6}$ (maximum allele count = 9 for 19-48758197-C-T). There are <strong>no LoF variants with AF &gt; 0.0001</strong>.</li>
+<li><strong>Implications:</strong> While the gene lacks constraint at the aggregate population level, individual LoF alleles remain rare. No common naturally occurring human knockouts or high-frequency haploinsufficient cohorts are available in gnomAD to benchmark long-term complete loss of FGF21 function in adult humans.</li>
+</ul>
+
+<h4 id="323-intact-interaction-network-safety-attrition-context">3.2.3 IntAct Interaction Network (Safety-Attrition Context)</h4>
+
+<ul>
+<li><strong>Physical Interaction Partners:</strong> <em>FGF21</em> has <strong>11 physical interaction partners</strong> with a Molecular Interaction (MI) score $&gt; 0.42$ in IntAct (33 interactions passing the MI threshold across 39 fetched rows).</li>
+<li><strong>Clinical Safety Attrition Risk:</strong> With 11 partners, <em>FGF21</em> falls into the <strong>"11–20 partners" band</strong>. According to empirical benchmarking by Razuvayevskaya et al. (2024, <em>Nature Genetics</em>, doi:10.1038/s41588-024-01854-z), targets within this connectivity range exhibit an estimated <strong>$\sim$1.3-fold higher odds of clinical trial termination due to safety concerns</strong> relative to minimally connected targets ($\le 10$ partners). This network metric flags moderate pleiotropy across core receptor complex partners (e.g., FGFR isoforms, $\beta$-Klotho/KLB ), underscoring the necessity of monitoring on-target pharmacology across non-hepatic tissues.</li>
+</ul>
+
+<h4 id="324-isoform-biology-therapeutic-selectivity">3.2.4 Isoform Biology &amp; Therapeutic Selectivity</h4>
+
+<ul>
+<li><strong>Isoform Landscape:</strong> Canonical <em>FGF21</em> encodes a single, secreted 209-amino-acid polypeptide containing an N-terminal signaling domain that interacts with FGF receptors (FGFR1c, FGFR2c, FGFR3c) and a C-terminal tail that binds the obligate coreceptor $\beta$-Klotho (KLB) .</li>
+<li><strong>Alternative Isoforms in Literature:</strong> The provided genetic and clinical literature does not document functional alternative splicing isoforms with divergent pathological or protective roles in MASH.</li>
+<li><strong>Selectivity Implications:</strong> Because MASH protection is driven by canonical endocrine FGF21 signaling through the hepatic and adipose FGFR1c/KLB receptor complex , an isoform-selective targeting strategy within the ligand itself is neither applicable nor necessary. Instead, therapeutic selectivity focuses on engineering ligand analogues (or bispecific receptor agonists) optimized for specific FGFR/KLB co-receptor geometries to maximize hepatic/metabolic efficacy while minimizing off-target FGFR activation .</li>
+</ul>
+
+<hr />
+
+<h3 id="33-published-genetic-association-evidence-pubmed">3.3 Published Genetic Association Evidence (PubMed)</h3>
+
+<p>Genetic and Mendelian randomization studies provide key human evidence supporting the causal involvement of FGF21 signaling in hepatic steatosis, metabolic dysfunction, and liver injury:</p>
+
+<ol>
+<li><strong>Mendelian Randomization in Steatohepatitis and Liver Biomarkers:</strong> Larsson et al. (<a href="https://pubmed.ncbi.nlm.nih.gov/36208799/">PMID 36208799</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/37023631/">PMID 37023631</a>) performed GWAS and two-sample MR of circulating FGF21, demonstrating that genetically predicted circulating FGF21 concentrations exert strong causal effects on improving circulating lipid profiles, reducing C-reactive protein, and improving biomarkers of liver function, including markers of liver fibrosis and steatohepatitis (NASH/MASH). Giontella et al. (<a href="https://pubmed.ncbi.nlm.nih.gov/37302695/">PMID 37302695</a>) leveraged the <em>FGF21</em> missense variant rs739320 (associated with MRI-derived liver fat) as an instrument, confirming broad metabolic and renoprotective benefits.</li>
+<li><strong>Reverse Causality and Steatosis Resistance:</strong> He et al. (<a href="https://pubmed.ncbi.nlm.nih.gov/40245929/">PMID 40245929</a>) conducted bidirectional MR across metabolic traits, finding that non-alcoholic fatty liver disease (NAFLD/MASLD: $\beta = -0.047, p = 0.006$), obesity ($\beta = 0.087, p = 0.009$), and type 2 diabetes ($\beta = 0.071, p &lt; 0.001$) causally regulate circulating FGF21 levels, consistent with an endogenous compensatory upregulation in insulin- and FGF21-resistant metabolic states.</li>
+<li><strong>Alcohol-Related Liver Injury and Ingestion Behavior:</strong> Rosoff et al. (<a href="https://pubmed.ncbi.nlm.nih.gov/41747774/">PMID 41747774</a>) demonstrated via multivariable and receptor-focused MR (evaluating <em>KLB</em> and <em>FGFR1/2/3</em>) that genetically higher FGF21 levels reduce problematic alcohol use ($\beta = -0.097, p = 6.13 \times 10^{-6}$) and protect against alcohol-related liver disease (ALD), paralleling non-human primate work by Flippo et al. (<a href="https://pubmed.ncbi.nlm.nih.gov/35108517/">PMID 35108517</a>) demonstrating KLB-dependent central regulation of ingestive behavior.</li>
+<li><strong>Pleiotropic and Null Associations:</strong> Multiple studies identified <em>FGF21</em> locus variants influencing dietary carbohydrate and sugar preferences (<a href="https://pubmed.ncbi.nlm.nih.gov/41056811/">PMID 41056811</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/31190057/">PMID 31190057</a>), while showing null or weak causal associations with primary hypertension, cardiomyopathy, or peripheral vascular diseases in MR screens (<a href="https://pubmed.ncbi.nlm.nih.gov/40245929/">PMID 40245929</a>).</li>
+</ol>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>PMID</th>
+  <th>Year</th>
+  <th>Study Type</th>
+  <th>Disease/Trait</th>
+  <th>Key Finding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>36208799</strong></td>
+  <td>2022</td>
+  <td>GWAS &amp; Mendelian Randomization</td>
+  <td>Circulating FGF21, Lipid profiles, NASH &amp; Liver fibrosis</td>
+  <td>Genetically predicted higher FGF21 causally improves lipid profiles, lowers CRP, and improves liver function and fibrosis markers.</td>
+</tr>
+<tr>
+  <td><strong>37302695</strong></td>
+  <td>2023</td>
+  <td>Mendelian Randomization (rs739320 instrument)</td>
+  <td>Liver fat, Renal function, Cardiometabolic traits</td>
+  <td>Genetically instrumented FGF21 activity (via liver fat proxy) confers multi-organ metabolic and renoprotection ($p = 1.9 \times 10^{-5}$).</td>
+</tr>
+<tr>
+  <td><strong>40245929</strong></td>
+  <td>2025</td>
+  <td>Bidirectional Mendelian Randomization</td>
+  <td>NAFLD/MASLD, T2D, Obesity, CVD</td>
+  <td>NAFLD causally influences circulating FGF21 ($\beta = -0.047, p = 0.006$), consistent with compensatory hormonal feedback loops.</td>
+</tr>
+<tr>
+  <td><strong>41747774</strong></td>
+  <td>2026</td>
+  <td>Multivariable &amp; Phenome-Wide MR</td>
+  <td>Problematic alcohol use, ALD, FGFR/KLB signaling</td>
+  <td>Genetically elevated FGF21 levels reduce hazardous drinking and protect against progressive toxic liver injury.</td>
+</tr>
+<tr>
+  <td><strong>35108517</strong></td>
+  <td>2022</td>
+  <td>Preclinical / Genetic Translation</td>
+  <td>Alcohol consumption &amp; Ingestive behavior</td>
+  <td>FGF21 acts centrally via KLB-expressing basolateral amygdala circuits to suppress excessive alcohol intake.</td>
+</tr>
+<tr>
+  <td><strong>41056811</strong></td>
+  <td>2025</td>
+  <td>GWAS &amp; Genetic Correlation</td>
+  <td>Sugar intake &amp; Cardiometabolic outcomes</td>
+  <td>Locus near <em>FGF21</em> governs sweet-tasting sugar intake, correlating with downstream triglyceride and metabolic remodeling.</td>
+</tr>
+</tbody>
+</table></div>
+
+<hr />
+
+<h3 id="34-integrated-human-genetics-verdict">3.4 Integrated Human Genetics Verdict</h3>
+
+<p>Human genetic support for FGF21 as a causal therapeutic target in metabolic dysfunction-associated steatohepatitis (MASH) is <strong>MODERATE</strong>; while direct, clean case-control GWAS signals for binary MASH diagnosis are absent in standard catalog queries (which are dominated by off-topic pQTLs, lipid fractions, and dietary preference signals), robust Mendelian randomization studies instrumenting <em>FGF21</em> variants consistently demonstrate causal protection against hepatic steatosis, elevated liver enzymes, and fibrosis. </p>
+
+<p>Gene constraint analysis in gnomAD indicates complete evolutionary tolerance to heterozygous loss of function ($\text{LOEUF} = 1.54, \text{pLI} \approx 0$), confirming that <em>FGF21</em> is not an essential housekeeping gene, though its 11 IntAct physical interaction partners place it in a moderate clinical safety attrition risk band ($\sim$1.3-fold risk) requiring careful monitoring of systemic receptor engagement. </p>
+
+<p>Because <em>FGF21</em> functions as a single canonical full-length hormone without disease-specific pathological splice isoforms, therapeutic development does not require isoform-selective inhibition; instead, human genetics fully supports the ongoing <strong>agonist</strong> strategy to enhance metabolic flux, reduce hepatic lipotoxicity, and reverse steatohepatitis.</p>
+
+<hr />
+
+<h3 id="35-tissue-distribution-human-protein-atlas">3.5 Tissue Distribution (Human Protein Atlas)</h3>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Level</th>
+  <th>Specificity</th>
+  <th>Distribution</th>
+  <th>Key Enriched Tissue(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>RNA</strong></td>
+  <td>Tissue enriched</td>
+  <td>Detected in single</td>
+  <td>Liver (79.4 nTPM; Cluster 31: Liver - Metabolism &amp; Coagulation)</td>
+</tr>
+<tr>
+  <td><strong>Protein (IHC)</strong></td>
+  <td>Not detected</td>
+  <td>Not detected</td>
+  <td>Not detected (Secretome: Secreted to blood)</td>
+</tr>
+</tbody>
+</table></div>
+
+<p>According to the Human Protein Atlas, <em>FGF21</em> RNA expression is tissue enriched and largely restricted to the liver (79.4 nTPM), with undetectable transcript levels in baseline immune cells and human brain regions. While baseline tissue immunohistochemistry (IHC) detects minimal stored intracellular protein due to rapid constitutive secretion into the blood, cross-species brain profiling confirms that FGF21 is not detected in mouse brain regional panels and exhibits low region specificity in pig brain. Among vital organs (heart, brain, liver, kidney), the liver represents the sole site of robust physiological synthesis. This restricted primary expression pattern indicates that endogenous production is tissue-specific, whereas therapeutic administration of FGF21 agonists delivers endocrine exposure across tissues expressing the obligate coreceptor $\beta$-Klotho (predominantly liver and adipose tissue, with discrete hypothalamic/hindbrain nuclei) .</p>
+
+<h4 id="section-summary-2">Section Summary</h4>
+
+<p>Human genetic evidence and tissue expression profiling provide coherent support for the therapeutic activation of FGF21 in MASH. Although binary disease GWAS signals are obscured by the polygenic background of steatohepatitis, Mendelian randomization studies consistently validate that genetically higher circulating FGF21 confers causal hepatoprotection, reduced hepatic steatosis, and lower fibrosis scores. Complete loss-of-function tolerance in gnomAD ($\text{LOEUF} = 1.54$) combined with liver-restricted baseline synthesis confirms that FGF21 is a non-housekeeping endocrine metabolic regulator, supporting the safety and biological rationale of an agonist approach.</p>
+
+<hr />
+
+<h2 id="4-structural-tractability-assessment">4. Structural Tractability Assessment</h2>
+
+<h3 id="41-protein-domain-architecture">4.1 Protein Domain Architecture</h3>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Feature</th>
+  <th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>UniProt Accession</strong></td>
+  <td>Q9NSA1</td>
+</tr>
+<tr>
+  <td><strong>Protein Name</strong></td>
+  <td>Fibroblast growth factor 21</td>
+</tr>
+<tr>
+  <td><strong>Length</strong></td>
+  <td>209 amino acids</td>
+</tr>
+<tr>
+  <td><strong>Transmembrane Helices</strong></td>
+  <td>0</td>
+</tr>
+<tr>
+  <td><strong>Signal Peptide</strong></td>
+  <td>Cleaved N-terminal secretory sequence (residues 1–28)</td>
+</tr>
+<tr>
+  <td><strong>Coiled Coils</strong></td>
+  <td>None annotated</td>
+</tr>
+<tr>
+  <td><strong>Zinc Fingers</strong></td>
+  <td>None annotated</td>
+</tr>
+<tr>
+  <td><strong>Named Domains</strong></td>
+  <td>Core atypical $\beta$-trefoil FGF homology domain</td>
+</tr>
+<tr>
+  <td><strong>Disordered Regions</strong></td>
+  <td>C-terminal disordered region (start: residue 143, end: residue 209)</td>
+</tr>
+</tbody>
+</table></div>
+
+<h3 id="42-structural-data-availability">4.2 Structural Data Availability</h3>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>PDB ID</th>
+  <th>Method</th>
+  <th>Resolution (Å)</th>
+  <th>Ligand Bound</th>
+  <th>Release Date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><a href="https://www.rcsb.org/structure/5VAQ">5VAQ</a></td>
+  <td>X-ray diffraction</td>
+  <td>2.606</td>
+  <td>Yes</td>
+  <td><a href="https://pubmed.ncbi.nlm.nih.gov/20180131/">PMID 20180131</a></td>
+</tr>
+<tr>
+  <td><a href="https://www.rcsb.org/structure/6M6E">6M6E</a></td>
+  <td>Solution NMR</td>
+  <td>N/A</td>
+  <td>No</td>
+  <td><a href="https://pubmed.ncbi.nlm.nih.gov/20210120/">PMID 20210120</a></td>
+</tr>
+<tr>
+  <td><a href="https://www.rcsb.org/structure/6M6F">6M6F</a></td>
+  <td>Solution NMR</td>
+  <td>N/A</td>
+  <td>No</td>
+  <td><a href="https://pubmed.ncbi.nlm.nih.gov/20210120/">PMID 20210120</a></td>
+</tr>
+</tbody>
+</table></div>
+
+<p><em>Structural modeling coverage:</em> AlphaFold predicted structure is available; 1 SWISS-MODEL homology model entry is available. High-resolution crystallographic data (PDB 5VAQ at 2.606 Å) capture the structural assembly of FGF21 in complex with its co-receptor interface, providing a high-fidelity template for molecular engineering.</p>
+
+<h3 id="43-therapeutic-modality-recommendation">4.3 Therapeutic Modality Recommendation</h3>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Modality</th>
+  <th>Feasibility</th>
+  <th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Recombinant Peptide / Protein Analogue</strong></td>
+  <td>High</td>
+  <td>Canonical modality; requires half-life extension (e.g., site-specific PEGylation or fatty acid conjugation) to overcome rapid renal clearance and proteolysis.</td>
+</tr>
+<tr>
+  <td><strong>Fc-Fusion Biologic</strong></td>
+  <td>High</td>
+  <td>Bivalent or monovalent Fc-fusion platforms (e.g., efruxifermin, efimosfermin alfa) confer IgG-like neonatal Fc receptor (FcRn) recycling and extend terminal half-life to weekly or monthly dosing.</td>
+</tr>
+<tr>
+  <td><strong>Bispecific Agonist Antibodies</strong></td>
+  <td>Moderate–High</td>
+  <td>Engineered dual-targeting antibodies directed against FGFR1c and $\beta$-Klotho mimic FGF21 signaling while circumventing peptide instability.</td>
+</tr>
+<tr>
+  <td><strong>Small Molecule Agonist</strong></td>
+  <td>Challenging</td>
+  <td>Direct small-molecule activation of the broad, shallow protein-protein interaction interface between FGFR and $\beta$-Klotho is structurally difficult; positive allosteric modulators remain early in discovery.</td>
+</tr>
+</tbody>
+</table></div>
+
+<h3 id="44-binding-site-analysis">4.4 Binding Site Analysis</h3>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Site Type</th>
+  <th>Residue Range</th>
+  <th>Description</th>
+  <th>Ligand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Active Site</td>
+  <td><em>None annotated</em></td>
+  <td>Secreted endocrine ligand lacking intrinsic enzymatic or catalytic activity</td>
+  <td>None</td>
+</tr>
+<tr>
+  <td>Binding Site</td>
+  <td><em>None annotated</em></td>
+  <td>Receptor binding occurs via the core FGF domain (FGFR1c/2c/3c interface) and C-terminal tail (residues 168–209; $\beta$-Klotho interface)</td>
+  <td>FGFR / KLB complex</td>
+</tr>
+</tbody>
+</table></div>
+
+<h4 id="section-summary-3">Section Summary</h4>
+
+<p>FGF21 is structurally well characterized, with high-resolution X-ray crystallography (PDB 5VAQ, 2.606 Å) and NMR solution structures resolving its core $\beta$-trefoil fold and flexible C-terminal receptor-binding tail. Because FGF21 is a secreted protein ligand acting through a large, multiprotein receptor complex (FGFR1c/2c/3c and $\beta$-Klotho), therapeutic tractability is optimal for engineered biologics—specifically long-acting PEGylated analogs, Fc-fusion proteins, and bispecific agonist antibodies—which effectively overcome the short native plasma half-life (1–2 hours) and susceptibility to FAP/DPP4 proteolytic cleavage.</p>
+
+<hr />
+
+<h2 id="5-target-safety-evaluation">5. Target Safety Evaluation</h2>
+
+<h3 id="51-loss-of-function-safety-profile">5.1 Loss-of-Function Safety Profile</h3>
+
+<h3 id="overall-verdict">Overall verdict</h3>
+
+<p>STRONG support for the activation hypothesis, as human genetic variation and preclinical loss-of-function (LoF) models demonstrate that endogenous FGF21 deficiency promotes hepatic steatosis, dyslipidemia, uncontrolled preference for simple sugars and alcohol, and increased vulnerability to inflammatory and vascular tissue injury, validating that therapeutic FGF21 agonism directly addresses the root metabolic drivers of MASLD and cardiometabolic disease (<a href="https://pubmed.ncbi.nlm.nih.gov/39450972/">PMID 39450972</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/41238906/">PMID 41238906</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/26654352/">PMID 26654352</a>).</p>
+
+<hr />
+
+<h3 id="adverse-effects-by-system">Adverse effects by system</h3>
+
+<p><strong>Hepatic and Metabolic System</strong>
+Loss of FGF21 function severely disrupts hepatic fatty acid oxidation, lipid partitioning, and whole-body glucose homeostasis (<a href="https://pubmed.ncbi.nlm.nih.gov/26654352/">PMID 26654352</a>). Human carriers of alleles that decrease FGF21 expression or function exhibit higher baseline triglyceride levels, increased hepatic fat accumulation, and impaired insulin sensitivity. Mechanistically, FGF21 acts as a master endocrine and autocrine regulator of hepatic lipid catabolism and white adipose tissue glucose uptake; its absence diminishes mitochondrial fatty acid oxidation and blunts diet-induced thermogenic responses (<a href="https://pubmed.ncbi.nlm.nih.gov/26654352/">PMID 26654352</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/31012296/">PMID 31012296</a>). This metabolic impairment presents with moderate severity and is fully reversible through dietary modification or pharmacological FGF21 replacement. This pathway represents the primary therapeutic target of FGF21 agonism, wherein pharmacological activation reverses the steatotic phenotype seen in LoF states.</p>
+
+<p><strong>Central Nervous System and Ingestive Behavior</strong>
+FGF21 LoF leads to altered neurobehavioral regulation of macronutrient preference, specifically manifesting as an increased craving and consumption of simple sugars and alcohol (<a href="https://pubmed.ncbi.nlm.nih.gov/41238906/">PMID 41238906</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/39450972/">PMID 39450972</a>). Mechanistically, liver-derived FGF21 crosses the blood-brain barrier to act on FGF21 receptor complexes in the hypothalamus and reward centers to suppress sweet and alcohol preference; failure of this endocrine liver-to-brain signaling pathway leaves carbohydrate appetitive signaling unrestrained (<a href="https://pubmed.ncbi.nlm.nih.gov/41238906/">PMID 41238906</a>). This behavioral phenotype is mild-to-moderate in severity, contributing chronically to metabolic syndrome and obesity, and is functionally reversible upon restoring central FGF21 signaling. This behavioral regulation pathway shares direct mechanistic overlap with the metabolic-protective actions of FGF21, operating even in common heterozygous hypomorphic variants (<a href="https://pubmed.ncbi.nlm.nih.gov/39450972/">PMID 39450972</a>).</p>
+
+<p><strong>Pancreatic and Gastrointestinal System</strong>
+Deficiency in FGF21 signaling increases susceptibility to pancreatic acinar cell injury and exacerbates pancreatitis (<a href="https://pubmed.ncbi.nlm.nih.gov/26654352/">PMID 26654352</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/32029920/">PMID 32029920</a>). Endogenous FGF21 is highly expressed in the exocrine pancreas, where it functions as an essential autocrine/paracrine proteostatic and anti-inflammatory factor that shields acinar cells from secretagogue stress, lipotoxicity, and chemical insults (<a href="https://pubmed.ncbi.nlm.nih.gov/26654352/">PMID 26654352</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/37848164/">PMID 37848164</a>). In the absence of intact FGF21 function, loss of this protective counter-regulatory mechanism permits unrestrained acinar necrosis, local inflammation, and elevated risk of pancreatitis episodes. The severity of acute pancreatitis episodes driven by target loss can be severe and potentially life-threatening; while early inflammatory episodes are reversible, recurrent or chronic severe pancreatitis results in irreversible parenchymal fibrosis and exocrine insufficiency.</p>
+
+<p><strong>Cardiovascular and Vascular System</strong>
+FGF21 LoF promotes accelerated vascular inflammation, endothelial dysfunction, and exaggerated hypertensive responses under pressor stress (<a href="https://pubmed.ncbi.nlm.nih.gov/29706566/">PMID 29706566</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/41198096/">PMID 41198096</a>). Mechanistically, FGF21 deficiency prevents the compensatory induction of the angiotensin-converting enzyme 2 (ACE2)/angiotensin-(1-7) axis in adipose and renal tissues, leaving angiotensin II-mediated vasoconstriction and oxidative vascular damage unchecked (<a href="https://pubmed.ncbi.nlm.nih.gov/29706566/">PMID 29706566</a>). Furthermore, loss of FGF21 blunts cardiac-protective stress signaling during metabolic overload, predisposing the myocardium to adverse remodeling (<a href="https://pubmed.ncbi.nlm.nih.gov/26654352/">PMID 26654352</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/41198096/">PMID 41198096</a>). The severity of cardiovascular impairment is moderate, presenting as accelerated hypertension and microvascular damage, and is reversible through restoration of FGF21-dependent ACE2 signaling or downstream renin-angiotensin-aldosterone system antagonism.</p>
+
+<p><strong>Musculoskeletal System</strong>
+Under basal physiological conditions, human FGF21 LoF has minimal overt impact on skeletal muscle architecture but impairs systemic stress-induced energy repartitioning. While endogenous FGF21 is normally expressed at very low levels in healthy muscle, it is markedly induced as a stress myokine during mitochondrial and metabolic stress (<a href="https://pubmed.ncbi.nlm.nih.gov/26654352/">PMID 26654352</a>). In contrasting pathological states such as severe mitochondrial myopathy, complete loss of FGF21 signaling prevents muscle catabolism and systemic wasting, indicating that endogenous FGF21 acts as a mediator of muscle atrophy downstream of unresolved endoplasmic reticulum and mitochondrial unfolded protein responses (<a href="https://pubmed.ncbi.nlm.nih.gov/28552492/">PMID 28552492</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/31208084/">PMID 31208084</a>). The phenotypic severity in muscle is mild under baseline states but can be severe in hypercatabolic stress states; the associated metabolic shifts are generally reversible.</p>
+
+<hr />
+
+<h3 id="protective-effects-of-lof">Protective effects of LoF</h3>
+
+<p>FGF21 LoF demonstrates protective phenotypes specifically in the context of hypercatabolic states, cachexia, and musculoskeletal aging:</p>
+
+<ol>
+<li><strong>Protection against Mitochondrial Stress-Induced Muscle Atrophy and Cachexia:</strong> Ablation or loss of FGF21 prevents the systemic muscle wasting, precocious epithelial senescence, and premature lethality triggered by severe skeletal muscle mitochondrial dysfunction, such as that caused by OPA1 ablation (<a href="https://pubmed.ncbi.nlm.nih.gov/28552492/">PMID 28552492</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/31208084/">PMID 31208084</a>). Mechanistically, this directly overlaps with the catabolic, energy-expending pathway mediated by endocrine FGF21; while activation of this pathway is therapeutically beneficial for clearing excess lipids in MASLD, unconstrained high-level activation drives systemic muscle and adipose catabolism.</li>
+<li><strong>Preservation of Bone Mass under Hepatic Stress:</strong> Elevated FGF21 signaling acts as a hepatic endocrine driver of bone resorption and osteoporosis in chronic metabolic disease models (<a href="https://pubmed.ncbi.nlm.nih.gov/40594911/">PMID 40594911</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/38902808/">PMID 38902808</a>). Consequently, lower baseline FGF21 activity or loss of function protects against excessive osteoclastic bone resorption, an adverse liability that requires careful monitoring when administering high-dose pharmacological FGF21 agonists (<a href="https://pubmed.ncbi.nlm.nih.gov/41198096/">PMID 41198096</a>).</li>
+</ol>
+
+<hr />
+
+<h3 id="therapeutic-window-heterozygous-vs-homozygous-lof">Therapeutic window: heterozygous vs. homozygous LoF</h3>
+
+<p>Heterozygous common hypomorphic variants (such as rs838133 and rs2548957) cause subtle, dose-dependent reductions in FGF21 activity, which manifest clinically as mild increases in sweet and alcohol intake, modest elevations in circulating triglycerides, and subtle metabolic thriftiness without precipitating severe organ failure (<a href="https://pubmed.ncbi.nlm.nih.gov/39450972/">PMID 39450972</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/31012296/">PMID 31012296</a>). In contrast, complete homozygous loss of FGF21 signaling or its obligate co-receptor β-Klotho results in severe metabolic and exocrine vulnerabilities, including heightened susceptibility to severe pancreatitis and marked exacerbation of steatohepatitis and hypertensive vascular injury under metabolic stress (<a href="https://pubmed.ncbi.nlm.nih.gov/39450972/">PMID 39450972</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/32029920/">PMID 32029920</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/29706566/">PMID 29706566</a>). </p>
+
+<p>For an AGONIST therapeutic strategy, this genetic spectrum demonstrates that full baseline restoration or moderate pharmacological activation readily rescues the hepatic, metabolic, and behavioral deficits without engaging the excessive catabolic mechanisms seen in severe GoF or hyper-elevated states. Because the protective benefits of LoF (avoidance of bone resorption and muscle catabolism) only become relevant at super-physiological GoF concentrations, a well-defined therapeutic window exists: moderate-dose FGF21 agonism successfully reverses MASLD, hypertriglyceridemia, and insulin resistance while remaining well below the threshold that induces bone loss or cachexia (<a href="https://pubmed.ncbi.nlm.nih.gov/38782182/">PMID 38782182</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/41198096/">PMID 41198096</a>).</p>
+
+<hr />
+
+<div class="callout cw"><blockquote>
+  <p>⚠ <strong>Clinical-attrition context:</strong> Elevated safety-attrition risk: 11 IntAct partners at MI>0.42 (10–20, ~1.3x reported fold-risk) — constrained/LoF-intolerant/highly-connected targets have been reported to see clinical trials stopped for safety reasons ~1.5x more often at the lowest gnomAD LOEUF constraint bin, ~1.4x more often at pLI &gt; 0.9, ~1.3x more often at 11-20 IntAct physical interaction partners, and ~1.4x more often at &gt;20 partners (Razuvayevskaya et al., Nat Genet 2024, doi:10.1038/s41588-024-01854-z, Fig. 3).</p>
+</blockquote></div>
+
+<h3 id="52-gain-of-function-validation">5.2 Gain-of-Function Validation</h3>
+
+<h3 id="therapeutic-hypothesis-assessment">Therapeutic hypothesis assessment</h3>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Intervention type implied by GoF evidence</strong></td>
+  <td>Activation (metabolic dysfunction-associated steatohepatitis and obesity; agrees with stated direction)</td>
+</tr>
+<tr>
+  <td><strong>Strongest evidence tier</strong></td>
+  <td>Knock-in or transgenic animal model (FGF21 transgenic mice and liver-specific HRD1-knockout mice, Juncheng Wei et al., <a href="https://pubmed.ncbi.nlm.nih.gov/30389664/">PMID 30389664</a>; Wei Wei et al., <a href="https://pubmed.ncbi.nlm.nih.gov/22315431/">PMID 22315431</a>)</td>
+</tr>
+<tr>
+  <td><strong>Primary on-target liability</strong></td>
+  <td>Acceleration of bone mineral loss and skeletal fragility via potentiation of peroxisome proliferator-activated receptor gamma (PPAR-γ) signaling, alongside suppression of the somatotropic and reproductive endocrine axes.</td>
+</tr>
+</tbody>
+</table></div>
+
+<hr />
+
+<h3 id="diseases-caused-or-worsened-by-fgf21-overactivity">Diseases caused or worsened by FGF21 overactivity</h3>
+
+<p>A clinician examining an individual with chronic FGF21 hyperactivation would observe progressive reduction in bone mineral density, cortical thinning, elevated trabecular bone loss, and increased susceptibility to fragility fractures. At the molecular level, circulating FGF21 engages the FGFR1–β-Klotho receptor complex on bone marrow mesenchymal stem cells, potentiating the transcriptional activity of peroxisome proliferator-activated receptor gamma (PPAR-γ); this biases mesenchymal differentiation toward the adipogenic lineage while simultaneously repressing Runt-related transcription factor 2 (Runx2)-driven osteoblastogenesis. Knock-in or transgenic animal model (transgenic mice overexpressing FGF21, Wei Wei et al., <a href="https://pubmed.ncbi.nlm.nih.gov/22315431/">PMID 22315431</a>; Guillaume J Trusz, <a href="https://pubmed.ncbi.nlm.nih.gov/38991938/">PMID 38991938</a>). The therapeutic challenge is that the PPAR-γ modulation and metabolic reprogramming that clear hepatic triglycerides directly drive marrow adiposity and osteoblast suppression.</p>
+
+<p>A clinician evaluating pediatric or juvenile subjects under persistent FGF21 overactivity would observe growth deceleration, reduced crown-rump length, delayed skeletal maturation, and marked reduction in circulating insulin-like growth factor 1 (IGF-1) concentrations. Mechanistically, sustained FGF21 elevation inhibits growth hormone receptor (GHR) downstream signaling within hepatocytes by blunting Janus kinase 2 (JAK2)-dependent phosphorylation of signal transducer and activator of transcription 5 (STAT5), which represses hepatic <em>IGF1</em> gene transcription and provokes systemic growth hormone resistance at the epiphyseal growth plate. Knock-in or transgenic animal model (transgenic mice overexpressing FGF21 and hepatic HRD1-deficient mice exhibiting unconstrained CREBH-mediated FGF21 production, Juncheng Wei et al., <a href="https://pubmed.ncbi.nlm.nih.gov/30389664/">PMID 30389664</a>). This growth suppression represents an evolutionary survival adaptation that reallocates energy away from somatic growth during periods of severe nutrient deprivation.</p>
+
+<p>A clinician would detect secondary amenorrhea or oligomenorrhea, anovulatory infertility, attenuated luteinizing hormone (LH) pulsatility, and blunted preovulatory LH surges. Systemic FGF21 overactivation acts centrally within the hypothalamic-pituitary-gonadal axis to suppress kisspeptin-secreting neurons and gonadotropin-releasing hormone (GnRH) release, preventing the pituitary gonadotrope activation necessary for ovulation. Knock-in or transgenic animal model (hepatic HRD1-knockout mice with constitutive FGF21 secretion, Juncheng Wei et al., <a href="https://pubmed.ncbi.nlm.nih.gov/30389664/">PMID 30389664</a>). This anovulatory phenotype represents an evolutionary mechanism that limits energy expenditure on reproduction during prolonged starvation or extreme metabolic stress.</p>
+
+<p>A clinician monitoring patients or animal models with elevated FGF21 would record diurnal rest-activity fragmentation, phase shifts in nocturnal locomotor behavior, and disrupted circadian metabolic rhythms. FGF21 crosses the blood-brain barrier and binds FGFR1–β-Klotho coreceptor complexes localized within the suprachiasmatic nucleus (SCN) and basomedial hypothalamus, altering the rhythmic transcription of canonical clock genes including <em>BMAL1</em> (<em>ARNTL</em>) and <em>PER2</em>. Knock-in or transgenic animal model (transgenic and HRD1-deleted mice exhibiting sustained FGF21 elevation, Juncheng Wei et al., <a href="https://pubmed.ncbi.nlm.nih.gov/30389664/">PMID 30389664</a>).</p>
+
+<hr />
+
+<h3 id="selectivity-and-isoform-considerations">Selectivity and isoform considerations</h3>
+
+<p>The physiological and pathological actions of FGF21 are mediated by the canonical, full-length 181-amino-acid circulating polypeptide, which requires the single-pass transmembrane coreceptor β-Klotho (KLB) in complex with FGF receptor 1c (FGFR1c), FGFR2c, or FGFR3c to initiate intracellular signaling (Guillaume J Trusz, <a href="https://pubmed.ncbi.nlm.nih.gov/38991938/">PMID 38991938</a>; Masaru Katoh, <a href="https://pubmed.ncbi.nlm.nih.gov/27245147/">PMID 27245147</a>).  Pathological GoF phenotypes stem from excessive signaling of the intact mature hormone rather than alternative splice variants. For agonist drug design, therapeutic entities (such as long-acting Fc-fusions, PEGylated analogs, or bispecific FGFR1c/KLB antibodies) must maintain strict integrity of the β-Klotho-interaction domain to avoid off-target, Klotho-independent pan-FGFR activation.</p>
+
+<hr />
+
+<h3 id="doseresponse-and-target-engagement-implications">Dose–response and target engagement implications</h3>
+
+<p>Phenotypic outcomes from genetic models demonstrate that FGF21 hyperactivation produces a graded, exposure-dependent response rather than an all-or-none switch (Wei Wei et al., <a href="https://pubmed.ncbi.nlm.nih.gov/22315431/">PMID 22315431</a>; Juncheng Wei et al., <a href="https://pubmed.ncbi.nlm.nih.gov/30389664/">PMID 30389664</a>). Heterozygous GoF states or moderate pharmacological elevations demonstrate substantial reductions in hepatic steatosis, serum triglycerides, and body weight while largely sparing skeletal integrity and reproductive competence. In contrast, massive transgene-driven overexpression or high-dose continuous agonist exposures surpass the homeostatic safety threshold, precipitating progressive trabecular bone loss, growth deceleration, and anovulation (Wei Wei et al., <a href="https://pubmed.ncbi.nlm.nih.gov/22315431/">PMID 22315431</a>; Juncheng Wei et al., <a href="https://pubmed.ncbi.nlm.nih.gov/30389664/">PMID 30389664</a>). Target engagement threshold: Unable to determine from available evidence. The single most important experiment to define the therapeutic window is a multi-dose escalation study of a long-acting FGF21 agonist in adult non-human primates, simultaneously evaluating non-invasive biomarkers of metabolic efficacy (hepatic proton density fat fraction by MRI-PDFF, serum triglycerides) alongside dynamic bone histomorphometry, high-resolution peripheral quantitative computed tomography (HR-pQCT), and sex hormone profiling.</p>
+
+<hr />
+
+<h4 id="overall-safety-summary">Overall Safety Summary</h4>
+
+<p>In evaluating an <strong>agonist</strong> therapeutic strategy for FGF21, genetic loss-of-function and gain-of-function data must be interpreted in reverse of an inhibitor paradigm: LoF phenotypes (Section 5.1) validate that endogenous target deficiency precipitates hepatic steatosis, hypertriglyceridemia, and tissue vulnerability, while GoF models (Section 5.2) preview potential on-target liabilities arising from supratherapeutic receptor engagement. In gnomAD, <em>FGF21</em> is classified as <strong>TOLERANT</strong> to loss of function, with a LOEUF score of 1.541 and a pLI of $3.34 \times 10^{-5}$, indicating that natural heterozygous LoF is evolutionarily neutral; among 20 high-confidence LoF variants identified in gnomAD, none occur at meaningful population frequency ($\text{AF} &gt; 0.0001$; maximum $\text{AF} = 6.17 \times 10^{-6}$). However, network analysis reveals that <em>FGF21</em> possesses 11 physical interaction partners in IntAct ($\text{MI} &gt; 0.42$), placing it into the 11–20 partner band. Targets within this connectivity range have been reported to exhibit an estimated <strong>$\sim$1.3-fold higher odds of clinical trial termination due to safety reasons</strong> relative to minimally connected targets (Razuvayevskaya et al., <em>Nat Genet</em> 2024, doi:10.1038/s41588-024-01854-z). Because the LOEUF of 1.541 confirms target non-essentiality while GoF models highlight exposure-dependent bone mineral loss (via PPAR-$\gamma$ potentiation) and reproductive/growth axis modulation, the overall safety profile for an AGONIST strategy represents a <strong>low-to-moderate, exposure-manageable safety concern</strong> that requires careful dose titration and clinical monitoring of bone mineral density and endocrine biomarkers.</p>
+
+<hr />
+
+<h2 id="6-competitive-landscape-pipeline-analysis">6. Competitive Landscape &amp; Pipeline Analysis</h2>
+
+<h3 id="61-approved-agents">6.1 Approved Agents</h3>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Drug</th>
+  <th>Mechanism</th>
+  <th>Indication</th>
+  <th>Status</th>
+  <th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><em>None</em></td>
+  <td><em>None</em></td>
+  <td><em>None</em></td>
+  <td><em>No approved agents identified</em></td>
+  <td>Web Search / Pipeline</td>
+</tr>
+</tbody>
+</table></div>
+
+<h3 id="62-investigational-pipeline">6.2 Investigational Pipeline</h3>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Drug</th>
+  <th>Mechanism</th>
+  <th>Phase</th>
+  <th>Trial Status</th>
+  <th>NCT ID(s)</th>
+  <th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Pegozafermin</td>
+  <td>GlycoPEGylated recombinant human FGF21 analogue; activates FGFR1c/2c/3c with $\beta$-Klotho</td>
+  <td><span class="phase3">Phase 3</span></td>
+  <td>Ongoing</td>
+  <td>none registered</td>
+  <td>Web Search</td>
+</tr>
+<tr>
+  <td>Efruxifermin</td>
+  <td>Bivalent recombinant human Fc-FGF21 fusion protein; signals via FGFR1c/2c/3c and $\beta$-Klotho</td>
+  <td><span class="phase3">Phase 3</span></td>
+  <td>Ongoing</td>
+  <td>none registered</td>
+  <td>Web Search</td>
+</tr>
+<tr>
+  <td>Efimosfermin alfa</td>
+  <td>Engineered FGF21 variant with N-terminal IgG Fc domain and intramolecular disulfide bond</td>
+  <td><span class="phase3">Phase 3</span></td>
+  <td>Ongoing</td>
+  <td>none registered</td>
+  <td>Web Search</td>
+</tr>
+<tr>
+  <td>Pegbelfermin</td>
+  <td>Recombinant human FGF21 analogue conjugated to 30 kDa PEG at unnatural amino acid</td>
+  <td><span class="phase2">Phase 2</span></td>
+  <td>Ended</td>
+  <td>none registered</td>
+  <td>Web Search</td>
+</tr>
+<tr>
+  <td>Fazpilodemab</td>
+  <td>Bispecific IgG1 mAb targeting FGFR1 and $\beta$-Klotho to induce receptor heterodimerization</td>
+  <td><span class="phase2">Phase 2</span></td>
+  <td>Ended</td>
+  <td>none registered</td>
+  <td>Web Search</td>
+</tr>
+<tr>
+  <td>MK-3655</td>
+  <td>Monoclonal antibody agonist binding $\beta$-Klotho to drive selective FGFR1c assembly</td>
+  <td><span class="phase2">Phase 2</span></td>
+  <td>Ended</td>
+  <td>none registered</td>
+  <td>Web Search</td>
+</tr>
+<tr>
+  <td>Zalfermin</td>
+  <td>Recombinant FGF21 analogue derivatized with albumin-binding fatty diacid side chain</td>
+  <td><span class="phase2">Phase 2</span></td>
+  <td>Ended</td>
+  <td>none registered</td>
+  <td>Web Search</td>
+</tr>
+<tr>
+  <td>HEC88473</td>
+  <td>Bifunctional GLP-1 / FGFR1c-$\beta$-Klotho dual agonist fusion protein</td>
+  <td><span class="phase2">Phase 2</span></td>
+  <td>Ongoing</td>
+  <td>none registered</td>
+  <td>Web Search</td>
+</tr>
+<tr>
+  <td>NNC0194-0499</td>
+  <td>Recombinant FGF21 analogue with stabilizing mutations and albumin-binding fatty diacid</td>
+  <td><span class="phase2">Phase 2</span></td>
+  <td>Ended</td>
+  <td>none registered</td>
+  <td>Web Search</td>
+</tr>
+<tr>
+  <td>Efimosfermin</td>
+  <td>Engineered FGF21 agonist</td>
+  <td><span class="phase2">Phase 2</span></td>
+  <td>Ongoing</td>
+  <td><a href="https://clinicaltrials.gov/study/NCT06920043">NCT06920043</a></td>
+  <td>ClinicalTrials.gov</td>
+</tr>
+<tr>
+  <td>LY2405319</td>
+  <td>Disulfide-stabilized recombinant FGF21 variant (Leu118Cys-Ala134Cys, $\Delta$Pro2)</td>
+  <td><span class="phase1">Phase 1</span></td>
+  <td>Ended</td>
+  <td>none registered</td>
+  <td>Web Search</td>
+</tr>
+<tr>
+  <td>PF-05231023</td>
+  <td>CovX-body biologic (two FGF21 peptides conjugated to non-targeting aldolase antibody)</td>
+  <td><span class="phase1">Phase 1</span></td>
+  <td>Ended</td>
+  <td>none registered</td>
+  <td>Web Search</td>
+</tr>
+</tbody>
+</table></div>
+
+<p>Across the clinical research landscape, a total of 16 clinical trials are registered on ClinicalTrials.gov investigating FGF21 pathway modulation. The discrepancy between the 12 named investigational pipeline agents and the 16 ClinicalTrials.gov records reflects multi-trial development programs for leading assets (such as efruxifermin and pegozafermin), trials evaluating combination regimens (e.g., FGF21 analogs with GLP-1 receptor agonists), and distinct phase-specific or regional trial protocols that expand beyond single unique drug entities.</p>
+
+<h4 id="section-summary-4">Section Summary</h4>
+
+<p>The clinical landscape for FGF21 agonism in MASH is highly mature and fiercely competitive, featuring three leading biologic assets in active Phase 3 pivotal trials (pegozafermin, efruxifermin, efimosfermin alfa). A key mechanistic opportunity exists for next-generation multi-agonists (such as GLP-1/FGF21 bifunctional fusions like HEC88473) and ultra-long-acting formulations enabling once-monthly subcutaneous administration. For a new market entrant, differentiation must center on achieving superior half-life and patient convenience while demonstrating clear skeletal and metabolic safety margins over first-generation daily or weekly FGF21 analogs.</p>
+
+<hr />
+
+<h2 id="7-overall-target-assessment-scores">7. Overall Target Assessment Scores</h2>
+
+<h3 id="71-rubric-scored-target-validation-assessment">7.1 Rubric-Scored Target Validation Assessment</h3>
+
+<p>Scored against the three criteria in <code>target_validation_scoring_rubric.md</code>. Each criterion is scored 0–3 (0 Poor, 1 Limited, 2 Good, 3 Excellent); the total is out of 9. This scores whether modulating the target is biologically plausible as an effective therapy — it does not score safety, and two of its criteria read the same evidence as 7.2.1 while asking the opposite question of it.</p>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>#</th>
+  <th>Criterion</th>
+  <th>Score</th>
+  <th>Rating</th>
+  <th>Rationale</th>
+  <th>Key data gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td>Target-Disease Association</td>
+  <td>3/3</td>
+  <td><span class="re">Excellent</span></td>
+  <td>Human clinical and genetic evidence strongly validates FGF21 agonism for metabolic dysfunction-associated steatohepatitis (MASH). Multiple engineered FGF21 analogues and Fc-fusion biologics, including pegozafermin, efruxifermin, and efimosfermin alfa, have demonstrated robust efficacy in Phase 2 and advanced into Phase 3 trials for steatohepatitis and fibrosis reduction. Additionally, Mendelian randomization analyses using GWAS datasets show that genetically higher circulating FGF21 levels causally associate with improved lipid metabolism, decreased liver enzyme elevations, and lower risk of liver fibrosis (<a href="https://pubmed.ncbi.nlm.nih.gov/36208799/">PMID 36208799</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/41747774/">PMID 41747774</a>).</td>
+  <td>Long-term Phase 3 histological resolution and clinical outcome readouts confirming durable fibrosis regression across diverse patient populations.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>Preclinical Proof-of-Concept</td>
+  <td>3/3</td>
+  <td><span class="re">Excellent</span></td>
+  <td>Preclinical proof-of-concept for FGF21 agonism is demonstrated consistently across both in vitro and multiple in vivo models of steatohepatitis. Recombinant FGF21, Fc-fused variants, and dual incretin-FGF21 agonists robustly lower liver triglycerides, alleviate lipotoxicity, and improve NAFLD activity scores in high-fat diet-fed mice, ob/ob mice, and guinea pig models (<a href="https://pubmed.ncbi.nlm.nih.gov/33421947/">PMID 33421947</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/35014168/">PMID 35014168</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/36012166/">PMID 36012166</a>). In vitro functional studies in hepatocytes verify that FGF21 signaling via beta-Klotho receptor complexes directly drives fatty acid oxidation and represses lipogenic pathways.</td>
+  <td>None identified</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>On-Target Tissue Relevance</td>
+  <td>3/3</td>
+  <td><span class="re">Excellent</span></td>
+  <td>Data from the Human Protein Atlas confirms that FGF21 is tissue-enriched in the liver (79.4 nTPM) and functions as a secreted hepatokine circulating systemically in the blood. Clinical and translational studies demonstrate that hepatic expression and circulating levels of FGF21 are dynamically modulated and elevated in human MASH patients in direct response to metabolic and steatotic stress (<a href="https://pubmed.ncbi.nlm.nih.gov/38894596/">PMID 38894596</a>). Physical interaction with its co-receptor KLB (documented in UniProt) confirms functionally meaningful pathway presence and engagement within the liver and systemic metabolic compartments.</td>
+  <td>None identified</td>
+</tr>
+<tr>
+  <td></td>
+  <td><strong>Total</strong></td>
+  <td><strong>9/9</strong></td>
+  <td><strong>Strong — consistent, multi-pronged evidence supports a plausible therapeutic effect</strong></td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+</table></div>
+
+<p><strong>Overall target-validation rationale: Strong — consistent, multi-pronged evidence supports a plausible therapeutic effect</strong></p>
+
+<p><strong>Direction-specific target validation.</strong> Evaluating FGF21 under an AGONIST modality substantially strengthens Criterion 1 and Criterion 2 because exogenous delivery of recombinant ligands and long-acting analogues directly reverses steatosis, inflammation, and fibrosis in clinical and preclinical models. Preclinical genetic models confirm that loss of FGF21 exacerbates metabolic dysfunction, whereas gain-of-function and agonist treatments rescue the disease phenotype. An inhibitor hypothesis would directly contradict clinical and genetic data showing that FGF21 upregulation represents a protective metabolic response.</p>
+
+<p><strong>Assessment.</strong> The target-validation rationale for FGF21 agonism in metabolic dysfunction-associated steatohepatitis is exceptionally strong, characterized by late-stage Phase 3 clinical pipeline assets (pegozafermin, efruxifermin), strong causal support from human Mendelian randomization studies, and robust cross-species preclinical efficacy. FGF21 acts as a liver-secreted hormone that directly regulates lipid metabolism, inflammation, and fibrogenesis upon receptor engagement. The single piece of evidence that would most solidify target validation is the formal reporting of primary histological endpoints (MASH resolution without worsening of fibrosis) from ongoing Phase 3 clinical trials.</p>
+
+<hr />
+
+<h3 id="72-target-safety-assessment">7.2 Target Safety Assessment</h3>
+
+<p>Bundles two independent judgements of the target's safety profile: 7.2.1 is a holistic rubric score across five qualitative criteria (<code>target_safety_scoring_rubric.md</code>), and 7.2.2 ranks discrete, named hazards on a Probability x Impact grid (<code>probability_risk_rubric.md</code>). The two are expected to correlate — a divergence between them is itself worth reading, which is why both are reported here in full rather than collapsed into one score. They are combined into a single weighted contribution only in Section 7.3.</p>
+
+<h4 id="721-rubric-scored-safety-assessment">7.2.1 Rubric-Scored Safety Assessment</h4>
+
+<p>Scored against the five criteria in <code>target_safety_scoring_rubric.md</code>. Each criterion is scored 0–3 (0 Poor, 1 Limited, 2 Good, 3 Excellent); the total is out of 15. The criteria were informed by the GOT-IT recommendations (Emmerich et al., 2020, <em>Improving target assessment in biomedical research: the GOT-IT recommendations</em>, Nature Reviews Drug Discovery, 20(1), 64–81, https://doi.org/10.1038/s41573-020-0087-3).</p>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>#</th>
+  <th>Criterion</th>
+  <th>Score</th>
+  <th>Rating</th>
+  <th>Rationale</th>
+  <th>Key data gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td>Off-Target Genetic Severity</td>
+  <td>3/3</td>
+  <td><span class="re">Excellent</span></td>
+  <td>Expression in the Human Protein Atlas is highly enriched in the liver (79.4 nTPM, the disease-relevant organ) and absent in critical non-hepatic organ systems such as the brain, heart, and kidney. Genome-wide association studies from the GWAS Catalog and published genetic literature link FGF21 variants (such as rs838133 and rs2548957) predominantly to benign traits, including alcohol preference, macronutrient choice, and minor shifts in blood urea nitrogen and circulating lipid fractions (<a href="https://pubmed.ncbi.nlm.nih.gov/35108517/">PMID 35108517</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/41747774/">PMID 41747774</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/41056811/">PMID 41056811</a>). No credible genetic evidence associates FGF21 variation with severe, life-threatening off-tissue toxicities in vital organ systems.</td>
+  <td>None identified</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>Prior Safety Knowledge &amp; Pathway Understanding</td>
+  <td>3/3</td>
+  <td><span class="re">Excellent</span></td>
+  <td>The physiological role of FGF21 as an endocrine metabolic regulator and its downstream signaling via FGFR1c/2c/3c and beta-Klotho (KLB) are extensively characterized across decades of human genetic and pharmacological research (<a href="https://pubmed.ncbi.nlm.nih.gov/26654352/">PMID 26654352</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/36618930/">PMID 36618930</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/38991938/">PMID 38991938</a>). Pathways catalogued in Reactome (such as cellular hexose transport) and SIGNOR (transcriptional regulation via ATF4 and TFEB) confirm well-understood, predictable physiological mechanisms. Data from IntAct shows 11 physical interaction partners, indicating manageable interactome connectivity without uncharacterized pleiotropic pathway liabilities.</td>
+  <td>None identified</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>Preclinical Safety Signal in the Therapeutic Direction</td>
+  <td>2/3</td>
+  <td><span class="rg">Good</span></td>
+  <td>In preclinical models, FGF21 agonism and overexpression consistently improve steatosis, inflammation, and fibrosis across diet-induced NASH and MASH models (<a href="https://pubmed.ncbi.nlm.nih.gov/33421947/">PMID 33421947</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/36102936/">PMID 36102936</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/35014168/">PMID 35014168</a>). The primary identified preclinical liabilities of sustained gain-of-function are non-lethal, consisting of reduced bone mineral density and altered bone turnover driven by PPAR-gamma potentiation in rodents (<a href="https://pubmed.ncbi.nlm.nih.gov/22315431/">PMID 22315431</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/40594911/">PMID 40594911</a>), alongside mild body weight and fecundity shifts at extreme transgenic levels (<a href="https://pubmed.ncbi.nlm.nih.gov/30389664/">PMID 30389664</a>). These adverse effects represent manageable, non-fatal safety signals that do not present irreversible systemic toxicity in animal models.</td>
+  <td>Long-term preclinical characterization of bone architecture impacts under intermittent versus continuous dosing regimens in non-human primates.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>Availability of Relevant Safety Models</td>
+  <td>3/3</td>
+  <td><span class="re">Excellent</span></td>
+  <td>Well-validated preclinical in vivo models directly applicable to FGF21 agonism in MASH are widely available, including western diet-fed DIAMOND mice (<a href="https://pubmed.ncbi.nlm.nih.gov/40594911/">PMID 40594911</a>), CDA-HFD models (<a href="https://pubmed.ncbi.nlm.nih.gov/38894596/">PMID 38894596</a>), MCD diet-induced steatohepatitis models (<a href="https://pubmed.ncbi.nlm.nih.gov/38004466/">PMID 38004466</a>), and alcohol-preferring non-human primates (<a href="https://pubmed.ncbi.nlm.nih.gov/35108517/">PMID 35108517</a>). In vitro systems utilizing primary hepatocytes and HK-2 cells, combined with high-resolution crystal and solution NMR structures (PDB 5VAQ, 6M6E, 6M6F), robustly support translational safety assessment. Transgenic overexpression and knockout mouse lines in other metabolic disease settings are cited as cross-disease tractability evidence rather than MASH-specific disease models.</td>
+  <td>None identified</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td>Tolerance to Target Perturbation</td>
+  <td>3/3</td>
+  <td><span class="re">Excellent</span></td>
+  <td>Convergent evidence from human genetics, animal models, and clinical trials demonstrates that therapeutically relevant FGF21 agonism is well tolerated. Multiple engineered FGF21 analogues and mimetics, including pegozafermin, efruxifermin, and efimosfermin alfa, have progressed into Phase 2 and Phase 3 clinical development (such as NCT06920043) with manageable safety profiles dominated by transient, non-severe gastrointestinal events (<a href="https://pubmed.ncbi.nlm.nih.gov/36618930/">PMID 36618930</a>). Furthermore, gnomAD constraint demonstrates substantial tolerance to gene modulation (LOEUF 1.54, pLI 3.34e-05), corroborating the absence of essentiality constraints.</td>
+  <td>None identified</td>
+</tr>
+<tr>
+  <td></td>
+  <td><strong>Total</strong></td>
+  <td><strong>14/15</strong></td>
+  <td><strong>Low risk — strong safety rationale across all dimensions</strong></td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+</table></div>
+
+<p><strong>Overall safety risk: Low risk — strong safety rationale across all dimensions</strong></p>
+
+<p><strong>Direction-specific risk.</strong> Therapeutic agonism of FGF21 carries on-target liabilities tied to sustained pathway overactivation, specifically potential reductions in bone mineral density via bone marrow mesenchymal adipogenesis and gastrointestinal disturbances, rather than loss-of-function toxicity.</p>
+
+<p><strong>Assessment.</strong> FGF21 represents a low-risk therapeutic target for metabolic dysfunction-associated steatohepatitis, supported by exceptional pathway understanding, high liver-specific expression, and extensive clinical trial precedent across multiple Phase 2 and Phase 3 agonists (pegozafermin, efruxifermin, efimosfermin alfa). The dominant safety consideration for an agonist approach is the potential for chronic bone mineral density reduction and gastrointestinal adverse events, as previewed by rodent gain-of-function studies and clinical trials. Because human genetic variants and clinical precedents demonstrate robust systemic tolerability, the target possesses an outstanding safety profile; long-term clinical bone safety and fracture monitoring data from Phase 3 trials will provide the single most definitive evidence to eliminate residual uncertainty.</p>
+
+<hr />
+
+<h4 id="722-on-target-hazard-risk-ranking">7.2.2 On-Target Hazard Risk Ranking</h4>
+
+<p>Scoring adapted from Table 3 of Amano et al. (2025), <em>Incorporation of target safety review in drug discovery</em>, J. Toxicol. Sci. 50(11), 593–599 — Takeda's TSR risk-ranking grid. Each of the identified risks is rated independently on Probability (High/Middle/Low) and Impact (High/Middle/Low); a risk needs a de-risking plan when both are High, or the combination is Middle/High in either order.</p>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Risk</th>
+  <th>Affected system</th>
+  <th>Probability</th>
+  <th>Impact</th>
+  <th>Needs a de-risking plan?</th>
+  <th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Bone mineral density reduction and skeletal fragility via PPAR-gamma potentiation</td>
+  <td>Musculoskeletal</td>
+  <td>High</td>
+  <td>Middle</td>
+  <td><strong>Yes</strong></td>
+  <td>P: Genetic and pharmacologic gain-of-function studies demonstrate that FGF21 excess accelerates bone resorption, suppresses osteoblastogenesis, and enhances marrow adipogenesis via PPAR-gamma potentiation (<a href="https://pubmed.ncbi.nlm.nih.gov/22315431/">PMID 22315431</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/38991938/">PMID 38991938</a>).  I: Loss of bone mineral density increases the risk of fragility fractures in MASH patients who already carry metabolic osteopenia risks. However, skeletal demineralisation develops gradually over time, is non-lethal, readily monitorable by dual-energy X-ray absorptiometry (DEXA), and manageable with antiresorptive co-therapies or dose modifications.</td>
+</tr>
+<tr>
+  <td>Gastrointestinal adverse events including diarrhea and nausea</td>
+  <td>Gastrointestinal</td>
+  <td>High</td>
+  <td>Low</td>
+  <td>No</td>
+  <td>P: Gastrointestinal symptoms represent the most prevalent treatment-emergent adverse events across clinical trials of investigational FGF21 receptor agonists and analogues, including pegozafermin, efruxifermin, and pegbelfermin (<a href="https://pubmed.ncbi.nlm.nih.gov/36618930/">PMID 36618930</a>, drug pipeline). These effects occur secondary to FGFR/beta-Klotho activation in gastrointestinal and metabolic effector tissues. I: These events are predominantly mild-to-moderate in severity, transient, and self-limiting without evidence of permanent end-organ damage. They are easily monitored and managed in clinical practice with supportive care, dose titration, or temporary interruption.</td>
+</tr>
+<tr>
+  <td>Sympathetic nervous system overactivation leading to blood pressure and heart rate elevation</td>
+  <td>Cardiovascular</td>
+  <td>Middle</td>
+  <td>Middle</td>
+  <td>No</td>
+  <td>P: FGF21 acts centrally via beta-Klotho-expressing neurons in the hypothalamus and hindbrain to stimulate sympathetic nervous system outflow (<a href="https://pubmed.ncbi.nlm.nih.gov/35108517/">PMID 35108517</a>). In early-phase clinical testing of certain FGF21 mimetics such as PF-05231023, modest increases in systolic and diastolic blood pressure and resting heart rate were documented . I: Sustained autonomic and hemodynamic elevations can exacerbate cardiovascular risk in MASH cohorts with underlying hypertension or coronary artery disease. However, blood pressure and heart rate changes are easily detectable through routine vital sign monitoring and responsive to standard antihypertensive therapy.</td>
+</tr>
+<tr>
+  <td>Hypothalamic-pituitary-gonadal axis suppression and female reproductive disruption</td>
+  <td>Endocrine and Reproductive</td>
+  <td>Middle</td>
+  <td>Middle</td>
+  <td>No</td>
+  <td>P: Preclinical gain-of-function and transgenic overexpression models demonstrate that sustained high circulating FGF21 levels cause neuroendocrine suppression of the hypothalamic-pituitary-gonadal axis, leading to anovulation and female infertility (<a href="https://pubmed.ncbi.nlm.nih.gov/30389664/">PMID 30389664</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/38991938/">PMID 38991938</a>). Direct confirmation in human clinical trials remains limited due to trial demographics largely consisting of postmenopausal females or males. I: Reproductive endocrine suppression presents a meaningful fertility hazard for female patients of childbearing potential, but the effect is non-life-threatening and pharmacologically reversible upon drug clearance. For target MASH populations, risk mitigation is straightforward through pregnancy screening, contraception requirements, and patient stratification.</td>
+</tr>
+</tbody>
+</table></div>
+
+<p><strong>Needs a de-risking plan: 1 of 4 identified risks.</strong></p>
+
+<p><strong>Overall risk score: 2/3</strong> (the score of the single worst probability/impact pair above: 3 for a High/High hazard, 2 for a Middle/High or High/Middle hazard, 0 otherwise. Fixed 0–3 scale, independent of how many hazards were identified, so it is comparable across targets. Higher is riskier, the opposite direction from the 7.1, 7.2.1 and 7.3 scores — not directly comparable to either.)</p>
+
+<p><strong>Summary.</strong> Because the therapeutic direction is agonism, target safety evaluation is driven by gain-of-function phenotypes and clinical pharmacology rather than loss-of-function data, which instead validate target engagement for MASH. Among the identified hazards, skeletal bone mineral density reduction triggers the requirement for proactive de-risking (High Probability / Middle Impact), necessitating baseline and longitudinal DEXA monitoring alongside bone turnover biomarker tracking in clinical trials. Cardiovascular hemodynamic elevations and reproductive axis suppression represent secondary, manageable liabilities, while gastrointestinal intolerance is high-incidence but low-impact. The single piece of evidence that would most dramatically alter this grid is long-term, multi-year DEXA bone mineral density and fracture incidence data from ongoing Phase 3 trials of pegozafermin or efruxifermin, which would establish whether preclinical bone loss translates into clinically meaningful skeletal fragility in humans.</p>
+
+<h3 id="73-overall-weighted-score">7.3 Overall Weighted Score</h3>
+
+<p>Deterministic weighted sum of the normalized 7.1, 7.2 (Safety bucket), and 7.3 scores — never asked of the judge model. Each component is normalized to 0-1 (higher is better) before weighting, since the raw scales differ (validation /9, safety /12, risk_points /3 inverted, tractability /3). The Safety bucket is itself an 80/20 combination of 7.2.1's rubric-scored safety assessment and 7.2.2's on-target hazard risk ranking (shown indented below, without their own top-level weight) — the two are documented as expected to correlate rather than measure independent axes, so they share one weight instead of being scored separately.</p>
+
+<p>Bolded rows are the ones actually summed to produce the final score below — the indented 7.2.1/7.2.2 sub-rows feed into the 7.2 bucket's own normalized score instead, so they carry a <em>subsection</em> weight (their share of the bucket) rather than a top-level one.</p>
+
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+  <th>Section</th>
+  <th>Normalized score</th>
+  <th>Weight</th>
+  <th>Subsection weight</th>
+  <th>Contribution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>7.1 Rubric-Scored Target Validation Assessment</strong></td>
+  <td><strong>1.00</strong></td>
+  <td><strong>50%</strong></td>
+  <td>—</td>
+  <td><strong>0.5000</strong></td>
+</tr>
+<tr>
+  <td><strong>7.2 Target Safety Assessment</strong></td>
+  <td><strong>0.81</strong></td>
+  <td><strong>50%</strong></td>
+  <td>—</td>
+  <td><strong>0.4067</strong></td>
+</tr>
+<tr>
+  <td>&nbsp;&nbsp;&nbsp;7.2.1 Rubric-Scored Safety Assessment</td>
+  <td>0.93</td>
+  <td>—</td>
+  <td>80%</td>
+  <td>0.7466</td>
+</tr>
+<tr>
+  <td>&nbsp;&nbsp;&nbsp;7.2.2 On-Target Hazard Risk Ranking</td>
+  <td>0.33</td>
+  <td>—</td>
+  <td>20%</td>
+  <td>0.0667</td>
+</tr>
+
+<tr>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td><strong>0.9067 (90.7%)</strong></td>
+</tr>
+</tbody>
+</table></div>
+
+<p><strong>Overall score: 90.7%</strong></p>
+
+<hr />
+
+<h2 id="8-conclusions">8. Conclusions</h2>
+
+<p>All major biomedical evidence pillars—including structural biology, preclinical pharmacological models, human genetics/Mendelian randomization, and clinical pipeline validation—are fully populated for FGF21, while standardized IMPC knockout data are absent. A definitive <strong>GO</strong> recommendation is issued for developing FGF21 agonists for metabolic dysfunction-associated steatohepatitis (MASH). This recommendation is justified by robust clinical and Mendelian randomization proof-of-concept demonstrating profound steatosis resolution, transaminase normalization, and histological fibrosis improvement. The primary outstanding developmental risk is managing potential on-target bone mineral density reduction and endocrine/reproductive axis modulation at high sustained exposures, which can be mitigated through optimized dosing schedules and dynamic clinical bone biomarker surveillance.</p>
+
+
+<div class="vbar" style="background:linear-gradient(135deg,#14532d,#166534);margin-top:1.5rem">
+  <div>
+    <div class="vl">Final Recommendation</div>
+    <div class="vt">Advance FGF21 agonist program for Metabolic Dysfunction-Associated Steatohepatitis</div>
+  </div>
+  <div class="vs" style="color:#86efac">GO</div>
+</div>
+
+</main>
+</div>
+</body>
+</html>
